@@ -1,3 +1,16 @@
+<style>
+    #reg-form {
+        width: 50%;
+        margin: 0 auto;
+    }
+    @media(max-width: 992px) {
+        #reg-form {
+            width: inherit;
+            margin: inherit;
+        }
+
+    }
+</style>
 <!-- Content -->
 <div class="content clear-fix">
 
