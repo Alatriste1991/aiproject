@@ -29,7 +29,8 @@ class CreateUsersTable extends Migration
                 'constraint' => '255',
             ],
             'status' => [
-                'type' => 'boolean',
+                'type' => 'TINYINT',
+                'constraint' => 1,
             ],
             'created_time' => [
                 'type' => 'TIMESTAMP',

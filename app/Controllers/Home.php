@@ -3,14 +3,28 @@
 namespace App\Controllers;
 use CodeIgniter\Controller;
 
+/**
+ * Class Home
+ * @package App\Controllers
+ */
 class Home extends BaseController
 {
+    /**
+     * @var array|bool|\CodeIgniter\Session\Session|float|int|object|string|null
+     */
     private $session = '';
+
+    /**
+     * Home constructor.
+     */
     function __construct()
     {
         $this->session = session();
     }
 
+    /**
+     * @return string
+     */
     public function index(): string
     {
 
@@ -31,6 +45,15 @@ class Home extends BaseController
 
     }
 
+
+    /**
+     * @return string
+     *
+     * status 0 - deleted
+     * status 1 - disabled
+     * status 2 - registered, but not verified
+     * status 3 - registered and verified
+     */
     public function login(){
 
         if($this->request->isAJAX()){
@@ -61,7 +84,6 @@ class Home extends BaseController
             }else{
 
                 $params = array(
-                    'status'    => true,
                     'user_email'     => $values['login-mail']
                 );
 
@@ -76,9 +98,9 @@ class Home extends BaseController
                         $response['error']=1;
                         $response['info'][]=array('fieldId'=>'login-password','message'=>'Password is incorrect!');
                     }else{
-                        if($user['status'] == 1 || $user['status'] == 2){
+                        if($user['status'] == 1){
                             $response['error']=1;
-                            $response['info'][]=array('fieldId'=>'login-mail','message'=>'This account disabled or not verified!');
+                            $response['info'][]=array('fieldId'=>'login-mail','message'=>'This account disabled!');
                         }else{
                             $response['error']=0;
                             $response['info'][]=array('fieldId'=>'submit','message'=>'Login successful');
@@ -109,6 +131,9 @@ class Home extends BaseController
         }
     }
 
+    /**
+     * @return \CodeIgniter\HTTP\RedirectResponse
+     */
     public function logout(){
         $this->session->destroy();
 
