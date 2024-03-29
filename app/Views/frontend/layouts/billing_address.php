@@ -83,7 +83,7 @@
                                                     <h5>'.$billing_address['billing_code'].' '.$billing_address['billing_city'].' '.$billing_address['billing_address'].'</h5>
                                                     <p>';
                                                         if($billing_address['default'] == 1){
-                                                            echo 'DEFAULT ADDRESS - <a href="/edit_billing_address/'.$billing_address['billing_data_id'].'">EDIT</a></p>
+                                                            echo 'DEFAULT ADDRESS - <a href="/edit_billing_address/'.$billing_address['billing_data_id'].'">EDIT</a> - <a style="color:red" href="/delete_billing_address/'.$billing_address['billing_data_id'].'">DELETE</a></p>
                                                 </li>';
                                                         }else{
                                                             echo '<a href="/edit_billing_address/'.$billing_address['billing_data_id'].'">EDIT</a></p>

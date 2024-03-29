@@ -122,4 +122,16 @@ class UserModel extends Model
 
         $builder->update($data, 'billing_data_id = '.$id);
     }
+
+    /**
+     * @param $id
+     */
+    function removeUserBillingAddress($id){
+        $db      = \Config\Database::connect();
+
+        $builder = $db->table('user_billing_data');
+
+        $builder->where('billing_data_id', $id);
+        $builder->delete();
+    }
 }

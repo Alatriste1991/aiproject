@@ -318,4 +318,17 @@ class User extends BaseController
                 .view('frontend/footer');
         }
     }
+
+    /**
+     * @param $id
+     * @return \CodeIgniter\HTTP\RedirectResponse
+     */
+    public function delete_billing_address($id){
+
+        $user_id = $this->session->get('login_data')['user_id'];
+
+        $this->userModel->removeUserBillingAddress($id);
+
+        return redirect()->to('/billing_address/'.$user_id);
+    }
 }
