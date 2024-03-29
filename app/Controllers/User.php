@@ -3,16 +3,34 @@
 namespace App\Controllers;
 use CodeIgniter\Controller;
 
+/**
+ * Class User
+ * @package App\Controllers
+ */
 class User extends BaseController
 {
+    /**
+     * @var array|bool|\CodeIgniter\Session\Session|float|int|object|string|null
+     */
     private $session = '';
+    /**
+     * @var \App\Models\UserModel|string
+     */
     private $userModel = '';
+
+    /**
+     * User constructor.
+     */
     function __construct()
     {
         $this->session = session();
         $this->userModel = new \App\Models\UserModel();
     }
-    
+
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function checkUser($id){
         $params['user_id'] = $id;
 
@@ -21,6 +39,9 @@ class User extends BaseController
 
     }
 
+    /**
+     * @return string
+     */
     public function registration(){
 
         if($this->request->isAJAX()){
@@ -117,23 +138,184 @@ class User extends BaseController
         }
 
     }
-    
+
+    /**
+     * status 0 - deleted
+     * status 1 - disabled
+     * status 2 - registered, but not verified
+     * status 3 - registered and verified
+     * @param $id
+     * @return string
+     */
     public function profile($id){
         
         $status = $this->checkUser($id);
 
         $data = array();
 
-        if($status == 0){
-            $data['message'] = 'Profile blocked!';
-        }elseif($status == 1){
+        if($status == 2){
             $data['message'] = 'Profile not verified yet!';
-        }/*else{
+        }else{
 
-        }*/
+           $data = array(
+               'menus'  => array(
+                   'billing_address'        => '/billing_address/'.$id,
+                   'payment_history'        => '/payment_history/'.$id,
+                   'generating_history'     => '/generating_history/'.$id,
+                   'get_package'            => '/generating_history/'.$id,
+               ),
+               'user_name' => $this->session->get('login_data')['user_name'],
+               'user_email' => $this->session->get('login_data')['user_email'],
+               'login_time' => $this->session->get('login_data')['login_time']
+           );
+        }
 
         return view('frontend/header')
             .view('frontend/layouts/profile',$data)
             .view('frontend/footer');
+    }
+
+    /**
+     * @param $id
+     * @return string
+     */
+    public function billing_address($id){
+        echo $id;
+
+        $data = array(
+            'menus'  => array(
+                'billing_address'        => '/billing_address/'.$id,
+                'payment_history'        => '/payment_history'.$id,
+                'generating_history'     => '/generating_history'.$id,
+            ),
+            'user_name' => $this->session->get('login_data')['user_name'],
+        );
+
+        $billing_addresses = $this->userModel->geUserAddresses($id);
+
+        if($billing_addresses == false){
+            $data['billing_addresses'] = false;
+        }else{
+            $data['billing_addresses'] = $billing_addresses;
+        }
+
+        return view('frontend/header')
+            .view('frontend/layouts/billing_address',$data)
+            .view('frontend/footer');
+    }
+
+    /**
+     * @return string
+     */
+    public function add_billing_address(){
+        $user_id = $this->session->get('login_data')['user_id'];
+
+        $model = new \App\Models\UserModel();
+
+        $response = array('error'=> 0,'info'=>null);
+
+        if($this->request->isAJAX()){
+
+            $values = array
+            (
+                'add-billing-data-name'	        => $_POST['add-billing-data-name'],
+                'add-billing-data-country'      => $_POST['add-billing-data-country'],
+                'add-billing-data-county'       => $_POST['add-billing-data-county'],
+                'add-billing-data-code'         => $_POST['add-billing-data-code'],
+                'add-billing-data-city'         => $_POST['add-billing-data-city'],
+                'add-billing-data-address'      => $_POST['add-billing-data-address'],
+                'add-billing-data-default'      => $_POST['add-billing-data-default'],
+            );
+
+            foreach ($values as $key => $value){
+                if($value == ''){
+                    $response['error'] = 1;
+                    $response['info'][]=array('fieldId'=> $key,'message'=>'Please fill this field!');
+
+                }
+            }
+
+            if($response['error'] == 0){
+                $data = array(
+                    'user_id'           => $user_id,
+                    'billing_name'      => $values['add-billing-data-name'],
+                    'billing_country'   => $values['add-billing-data-country'],
+                    'billing_county'    => $values['add-billing-data-county'],
+                    'billing_code'      => $values['add-billing-data-code'],
+                    'billing_city'      => $values['add-billing-data-city'],
+                    'billing_address'   => $values['add-billing-data-address'],
+                    'default'           => $values['add-billing-data-default'],
+                );
+                $response['info'][]=array('fieldId'=>'submit','message'=>'Billing address successfully added');
+                $response['id'] = $user_id;
+
+                $this->userModel->addUserBillingAddress($data);
+            }
+
+            print json_encode($response);
+        }else{
+            return view('frontend/header')
+                .view('frontend/layouts/add_billing_address')
+                .view('frontend/footer');
+        }
+    }
+
+    /**
+     * @param $id
+     * @return string
+     */
+    public function edit_billing_address($id){
+
+        $user_id = $this->session->get('login_data')['user_id'];
+
+        $response = array('error'=> 0,'info'=>null);
+
+        if($this->request->isAJAX()){
+
+            $values = array
+            (
+                'add-billing-data-name'	        => $_POST['add-billing-data-name'],
+                'add-billing-data-country'      => $_POST['add-billing-data-country'],
+                'add-billing-data-county'       => $_POST['add-billing-data-county'],
+                'add-billing-data-code'         => $_POST['add-billing-data-code'],
+                'add-billing-data-city'         => $_POST['add-billing-data-city'],
+                'add-billing-data-address'      => $_POST['add-billing-data-address'],
+                'add-billing-data-default'      => $_POST['add-billing-data-default'],
+            );
+
+            foreach ($values as $key => $value){
+                if($value == ''){
+                    $response['error'] = 1;
+                    $response['info'][]=array('fieldId'=> $key,'message'=>'Please fill this field!');
+
+                }
+            }
+
+            if($response['error'] == 0){
+                $data = array(
+                    'user_id'           => $user_id,
+                    'billing_name'      => $values['add-billing-data-name'],
+                    'billing_country'   => $values['add-billing-data-country'],
+                    'billing_county'    => $values['add-billing-data-county'],
+                    'billing_code'      => $values['add-billing-data-code'],
+                    'billing_city'      => $values['add-billing-data-city'],
+                    'billing_address'   => $values['add-billing-data-address'],
+                    'default'           => $values['add-billing-data-default'],
+                );
+                $response['info'][]=array('fieldId'=>'submit','message'=>'Billing address successfully added');
+                $response['id'] = $id;
+
+               $this->userModel->editUserBillingAddress($data,$id);
+            }
+
+            print json_encode($response);
+        }else{
+
+            $data['billing_address'] = $this->userModel->geUserAddress($id);
+
+            return view('frontend/header')
+                .view('frontend/layouts/edit_billing_address',$data)
+                .view('frontend/footer');
+        }
     }
 }

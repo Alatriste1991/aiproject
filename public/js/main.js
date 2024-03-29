@@ -37,6 +37,17 @@ $(document).ready(function()
 		submitContactFormReg();
 	});
 
+	$('#add-billing-data-form').bind('submit',function(e)
+	{
+		e.preventDefault();
+		submitBillingDataFormReg();
+	});
+
+	$('#edit-billing-data-form').bind('submit',function(e)
+	{
+		e.preventDefault();
+		submiteditBillingDataFormReg();
+	});
 
 	$('textarea').elastic();
 	$('form label').inFieldLabels();
