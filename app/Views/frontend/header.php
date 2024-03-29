@@ -45,6 +45,14 @@
 
                 <div class="layout-50p-right">
 
+                    <?php
+                    if(isset($_SESSION['login_data']['logged_in']) && $_SESSION['login_data']['logged_in'] == 1){
+                        echo '<div class="header-phone">';
+                        echo '<a href="/logout">LOGOUT</a>';
+                        echo '</div>';
+                    }
+                    ?>
+
                     <div class="header-phone">
                         Call Support 1-800-123-124
                     </div>
