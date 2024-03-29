@@ -15,6 +15,11 @@ h2,h2 a	{ font-size:54px; }
 		{
 			width:648px;
 		}
+
+		ul.form-line li select
+		{
+			width:669px
+		}
 		
 /******************************************************************************/
 /*  Newsletter form															  */

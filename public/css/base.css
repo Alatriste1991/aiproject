@@ -633,6 +633,11 @@ ul.form-line
 			border:solid 1px #FFFFFF;
 		}
 
+		ul.form-line li select
+		{
+			width:424px
+		}
+
 		ul.form-line li textarea
 		{
 			height:120px;

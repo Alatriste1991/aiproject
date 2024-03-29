@@ -26,8 +26,13 @@ h5,h5 a	{ line-height:140%; }
 
 		ul.form-line li input,
 		ul.form-line li textarea
+
 		{
 			width:238px;
+		}
+		ul.form-line li select
+		{
+			width:259px
 		}
 		
 /******************************************************************************/
