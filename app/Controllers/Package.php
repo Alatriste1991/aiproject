@@ -2,18 +2,40 @@
 
 namespace App\Controllers;
 
+/**
+ * Class Package
+ * @package App\Controllers
+ */
 class Package extends BaseController
 {
+    /**
+     * @var array|bool|\CodeIgniter\Session\Session|float|int|object|string|null
+     */
     private $session = '';
 
+    /**
+     * @var string
+     */
     private $user_id = '';
 
+    /**
+     * @var \App\Models\PackageModel|string
+     */
     private $packageModel = '';
 
+    /**
+     * @var \App\Models\OrderModel|string
+     */
     private $orderModel = '';
 
+    /**
+     * @var \App\Models\userModel|string
+     */
     private $userModel = '';
 
+    /**
+     * Package constructor.
+     */
     function __construct()
     {
         $this->session = session();
@@ -23,6 +45,9 @@ class Package extends BaseController
         $this->userModel = new \App\Models\userModel();
     }
 
+    /**
+     * @return string
+     */
     public function packages(){
 
 
@@ -34,6 +59,10 @@ class Package extends BaseController
             .view('frontend/footer');
     }
 
+    /**
+     * @param $id
+     * @return string
+     */
     public function get_package($id){
 
         $billing_addresses = $this->userModel->geUserAddresses($this->user_id);
@@ -53,6 +82,9 @@ class Package extends BaseController
 
     }
 
+    /**
+     *
+     */
     public function select_addresses(){
 
         if($this->request->isAJAX()){

@@ -88,6 +88,9 @@ class Home extends BaseController
                 );
 
                 $user = $model->getUser($params);
+                $packageModel = new \App\Models\PackageModel();
+                $generating_count =  $packageModel->get_user_generating_count($user['user_id']);
+
 
                 if($user == false){
                     $response['error']=1;
@@ -109,11 +112,12 @@ class Home extends BaseController
 
 
                             $user_data = array(
-                                'login_time' => date('Y-m-d H:i:s'),
-                                'user_email' => $user['user_email'],
-                                'user_name' => $user['user_name'],
-                                'user_id'   => $user['user_id'],
-                                'logged_in' => true,
+                                'login_time'            => date('Y-m-d H:i:s'),
+                                'user_email'            => $user['user_email'],
+                                'user_name'             => $user['user_name'],
+                                'user_id'               => $user['user_id'],
+                                'logged_in'             => true,
+                                'pic_generating_count'  => $generating_count['count']
                             );
 
                             $this->session->set('login_data',$user_data);

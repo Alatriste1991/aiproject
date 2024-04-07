@@ -49,6 +49,12 @@ $(document).ready(function()
 		submiteditBillingDataFormReg();
 	});
 
+	$('#buy-package-form').bind('submit',function(e)
+	{
+		e.preventDefault();
+		submitAddOrderFormReg();
+	});
+
 	$('textarea').elastic();
 	$('form label').inFieldLabels();
 	

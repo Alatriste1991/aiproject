@@ -94,6 +94,11 @@
                                                 <h5>Login time</h5>
                                                 <p><?php echo $login_time; ?></p>
                                             </li>
+                                            <li>
+                                                <span>3</span>
+                                                <h5>Number of image generation remaining</h5>
+                                                <p><?php echo $generating_count; ?></p>
+                                            </li>
                                         </ul>
 
                                     </div>

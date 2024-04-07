@@ -115,6 +115,8 @@ class User extends BaseController
                     );
 
                     $addUser = $this->userModel->addUser($data);
+                    $packageModel = new \App\Models\PackageModel();
+                    $packageModel->update_user_generating_count($addUser,0);
 
                     if($addUser == false){
                         $response['error']=1;
@@ -156,17 +158,18 @@ class User extends BaseController
         if($status == 2){
             $data['message'] = 'Profile not verified yet!';
         }else{
-
+            $packageModel = new \App\Models\PackageModel();
            $data = array(
                'menus'  => array(
                    'billing_address'        => '/billing_address/'.$id,
                    'payment_history'        => '/payment_history/'.$id,
                    'generating_history'     => '/generating_history/'.$id,
-                   'get_package'            => '/generating_history/'.$id,
+                   'packages'             => '/packages',
                ),
                'user_name' => $this->session->get('login_data')['user_name'],
                'user_email' => $this->session->get('login_data')['user_email'],
-               'login_time' => $this->session->get('login_data')['login_time']
+               'login_time' => $this->session->get('login_data')['login_time'],
+               'generating_count' => $packageModel->get_user_generating_count($id)['count']
            );
         }
 
@@ -187,6 +190,7 @@ class User extends BaseController
                 'billing_address'        => '/billing_address/'.$id,
                 'payment_history'        => '/payment_history'.$id,
                 'generating_history'     => '/generating_history'.$id,
+                'packages'             => '/packages',
             ),
             'user_name' => $this->session->get('login_data')['user_name'],
         );
