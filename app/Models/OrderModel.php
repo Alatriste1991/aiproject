@@ -49,7 +49,9 @@ class OrderModel extends Model
     function addOrder($data){
         $builder1 = $this->db->table('orders');
 
-        $data['payment_address']['order_id'] = $data['package']['order_id'] = $builder1->insert($data['order'],true);
+        $builder1->insert($data['order'],true);
+
+        $data['payment_address']['order_id'] = $data['package']['order_id'] = $this->db->insertID();
 
         $builder2 = $this->db->table('order_payment_address');
 
