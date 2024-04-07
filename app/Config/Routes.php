@@ -22,3 +22,6 @@ $routes->get('/add_billing_address', 'User::add_billing_address');
 $routes->post('/add_billing_address', 'User::add_billing_address');
 $routes->get('/edit_billing_address/(:any)', 'User::edit_billing_address/$1');
 $routes->get('/delete_billing_address/(:any)', 'User::delete_billing_address/$1');
+$routes->get('/packages', 'Package::packages');
+$routes->get('/get_package/(:any)', 'Package::get_package/$1');
+
