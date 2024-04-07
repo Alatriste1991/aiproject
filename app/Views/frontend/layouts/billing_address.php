@@ -22,6 +22,15 @@
 
                             <!-- Item -->
                             <li>
+                                <a href="<?php echo $menus['packages']; ?>"><h3>Get package</h3></a>
+                                <p class="icon-1 icon-1-3">
+                                    Vestibulum varius lectus massa, eget sodales era augu. Nullam in  magnat, at ultricies lectus. Pellentesque mado consequat lobortis. Maecenas dictu.
+                                </p>
+                            </li>
+                            <!-- /Item -->
+
+                            <!-- Item -->
+                            <li>
                                 <a href="<?php echo $menus['billing_address']; ?>"><h3>Billing addresses</h3></a>
                                 <p class="icon-1 icon-1-1">
                                     Donec eget ultricies sapi. Sed porttitor, mauris ater lob facilisis, elit sapie eleifend ligula, et facilisis dolor odom vitae nunc. Phasellus ultricies eliteg.

@@ -29,7 +29,7 @@
 
                                 <!-- Item -->
                                 <li>
-                                    <a href="<?php echo $menus['get_package']; ?>"><h3>Get package</h3></a>
+                                    <a href="<?php echo $menus['packages']; ?>"><h3>Get package</h3></a>
                                     <p class="icon-1 icon-1-3">
                                         Vestibulum varius lectus massa, eget sodales era augu. Nullam in  magnat, at ultricies lectus. Pellentesque mado consequat lobortis. Maecenas dictu.
                                     </p>
