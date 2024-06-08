@@ -116,7 +116,7 @@ class User extends BaseController
 
                     $addUser = $this->userModel->addUser($data);
                     $packageModel = new \App\Models\PackageModel();
-                    $packageModel->update_user_generating_count($addUser,0);
+                    $packageModel->update_user_generating_count($addUser,1);
 
                     if($addUser == false){
                         $response['error']=1;
