@@ -58,6 +58,7 @@ class Home extends BaseController
 
         if($this->request->isAJAX()){
 
+            $error = 0;
             $model = new \App\Models\UserModel();
 
             $response = array('error'=>0,'info'=>null);
@@ -68,10 +69,9 @@ class Home extends BaseController
                 'login-password'					=> $_POST['login-password'],
             );
 
-
-
             if(!filter_var($values['login-mail'],FILTER_VALIDATE_EMAIL))
             {
+                $error = 1;
                 $response['error']=1;
                 $response['info'][]=array('fieldId'=>'login-mail','message'=>'Invalid email format!');
             }
@@ -79,9 +79,12 @@ class Home extends BaseController
 
             if(!mb_strlen($values['login-password']))
             {
+                $error = 1;
                 $response['error']=1;
                 $response['info'][]=array('fieldId'=>'login-password','message'=>'Password cannot be empty!');
-            }else{
+            }
+
+            if($error == 0){
 
                 $params = array(
                     'user_email'     => $values['login-mail']
@@ -89,6 +92,7 @@ class Home extends BaseController
 
                 $user = $model->getUser($params);
                 $packageModel = new \App\Models\PackageModel();
+
                 $generating_count =  $packageModel->get_user_generating_count($user['user_id']);
 
 
