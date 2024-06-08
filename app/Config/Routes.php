@@ -26,3 +26,8 @@ $routes->get('/packages', 'Package::packages');
 $routes->get('/get_package/(:any)', 'Package::get_package/$1');
 $routes->post('/add_order', 'Order::add_order');
 $routes->post('/select_addresses', 'Package::select_addresses');
+
+$routes->get('/generation', 'Image::generation');
+$routes->post('/generate', 'Image::generate');
+$routes->get('/image/(:any)', 'Image::image/$1');
+$routes->get('/downloadImage/(:any)', 'Image::downloadImage/$1');
