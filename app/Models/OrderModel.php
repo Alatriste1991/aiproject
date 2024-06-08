@@ -63,4 +63,17 @@ class OrderModel extends Model
 
     }
 
+    function getOrder($where){
+
+        $builder = $this->db->table('orders');
+
+        $builder->select('*');
+
+        $builder->join('order_package','orders.order_id = order_package.order_id','inner');
+
+        $data = $builder->getWhere($where)->getResultArray();
+
+        return $data;
+    }
+
 }

@@ -67,18 +67,40 @@ class Package extends BaseController
 
         $billing_addresses = $this->userModel->geUserAddresses($this->user_id);
 
-        $data['package']            = $this->packageModel->getPackage($id);
-        $data['payment_methods']    = $this->orderModel->getPaymentMethods();
 
-        if($billing_addresses == false){
-            $data['billing_addresses'] = false;
+        //TODO: ideiglenes, míg ingyenes csomagok vannak
+        if($id == '1' && $this->checkOrder($this->user_id,$id) != false){
+            $data['message'] = 'You have already got free package!';
+
+            return view('frontend/header')
+                .view('frontend/layouts/profile',$data)
+                .view('frontend/footer');
         }else{
-            $data['billing_addresses'] = $billing_addresses;
+            $data['package']            = $this->packageModel->getPackage($id);
+            $data['payment_methods']    = $this->orderModel->getPaymentMethods();
+            if($billing_addresses == false){
+                $data['billing_addresses'] = false;
+            }else{
+                $data['billing_addresses'] = $billing_addresses;
+            }
+
+            return view('frontend/header')
+                .view('frontend/layouts/packages/get_package',$data)
+                .view('frontend/footer');
         }
 
-        return view('frontend/header')
-            .view('frontend/layouts/packages/get_package',$data)
-            .view('frontend/footer');
+    }
+
+    public function checkOrder($user_id,$id){
+
+        $params = array(
+            'user_id'       => $user_id,
+            'order_p_package_id'    => $id
+        );
+
+        $order = $this->orderModel->getOrder($params);
+
+        return $order;
 
     }
 
