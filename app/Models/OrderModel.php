@@ -15,6 +15,8 @@ class OrderModel extends Model
      */
     protected $db = '';
 
+    private $packageModel = '';
+
     /**
      * OrderModel constructor.
      * @param ConnectionInterface|null $db
@@ -23,6 +25,7 @@ class OrderModel extends Model
     public function __construct(ConnectionInterface $db = null, ValidationInterface $validation = null)
     {
         $this->db = \Config\Database::connect();
+        $this->packageModel = new \App\Models\PackageModel();
     }
 
     /**
@@ -60,6 +63,10 @@ class OrderModel extends Model
         $builder3 = $this->db->table('order_package');
 
         $builder3->insert($data['package'],true);
+
+        $package = $this->packageModel->getPackage($data['package']['order_p_package_id']);
+
+        $this->packageModel->update_user_generating_count($data['order']['user_id'],$package['picture_qty']);
 
     }
 
