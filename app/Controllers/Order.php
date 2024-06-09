@@ -89,4 +89,22 @@ class Order extends BaseController {
 
         print json_encode($response);
     }
+
+    public function order_history($user_id){
+
+        $params = array(
+            'user_id' => $user_id
+        );
+
+        $data['orders'] = $this->orderModel->getOrder($params);
+
+        /*echo'<pre>';
+        var_dump($orders);
+        echo'</pre>';*/
+
+        return view('frontend/header')
+            .view('frontend/layouts/order/order_history', $data)
+            .view('frontend/footer');
+
+    }
 }
