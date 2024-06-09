@@ -55,6 +55,12 @@ $(document).ready(function()
 		submitAddOrderFormReg();
 	});
 
+	$('#image-generation').bind('submit',function(e)
+	{
+		e.preventDefault();
+		submitGenerateFormReg();
+	});
+
 	$('textarea').elastic();
 	$('form label').inFieldLabels();
 	

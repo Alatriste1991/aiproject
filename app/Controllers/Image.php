@@ -16,6 +16,8 @@ class Image extends BaseController
 
     private $ImageModel = '';
 
+    private $PackageModel = '';
+
     private $user_id = '';
 
     /**
@@ -27,12 +29,19 @@ class Image extends BaseController
         $this->is_logged_in();
         $this->user_id = $this->session->get('login_data')['user_id'];
         $this->ImageModel = new \App\Models\ImageModel();
+        $this->PackageModel = new \App\Models\PackageModel();
     }
 
     public function generation(){
 
+        $data['accept'] = true;
+
+        if($this->PackageModel->get_user_generating_count($this->user_id)['count'] == 0){
+            $data['accept'] = false;
+        }
+
         return view('frontend/header')
-            .view('frontend/layouts/image/generation')
+            .view('frontend/layouts/image/generation',$data)
             .view('frontend/footer');
     }
 
