@@ -112,7 +112,7 @@ class User extends BaseController
                         'user_name'     => $values['reg-username'],
                         'user_email'    => $values['reg-mail'],
                         'password'      => password_hash($values['reg-password1'],PASSWORD_DEFAULT),
-                        'status'        => true,
+                        'status'        => 2,
                     );
 
                     $addUser = $this->userModel->addUser($data);
