@@ -180,4 +180,13 @@ class ImageModel extends Model
 
         }
     }
+
+    function getAllImagesbyUserId($user_id){
+
+        //$builder = ->table('images');
+        $builder = $this->db->query('SELECT image_url_id,prompt,created_time FROM images WHERE user_id = "'.$user_id.'"');
+
+        $data = $builder->getResultArray();
+        return $data;
+    }
 }

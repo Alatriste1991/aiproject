@@ -107,6 +107,17 @@ class Image extends BaseController
         }
     }
 
+    public function generating_history($user_id){
 
+        $images = $this->ImageModel->getAllImagesbyUserId($user_id);
+
+        $data = array(
+            'data' => $images
+        );
+
+        return view('frontend/header')
+            .view('frontend/layouts/image/generating_history', $data)
+            .view('frontend/footer');
+    }
 
 }
