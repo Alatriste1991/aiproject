@@ -61,6 +61,12 @@ $(document).ready(function()
 		submitGenerateFormReg();
 	});
 
+	$('#feedback').bind('submit',function(e)
+	{
+		e.preventDefault();
+		submitFeedbackForm();
+	});
+
 	$('textarea').elastic();
 	$('form label').inFieldLabels();
 	

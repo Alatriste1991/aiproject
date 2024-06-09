@@ -33,3 +33,6 @@ $routes->post('/generate', 'Image::generate');
 $routes->get('/image/(:any)', 'Image::image/$1');
 $routes->get('/downloadImage/(:any)', 'Image::downloadImage/$1');
 $routes->get('/generating_history/(:any)', 'Image::generating_history/$1');
+
+$routes->get('/feedback', 'Feedback::index');
+$routes->post('/feedbackpost', 'Feedback::feedbackpost');
