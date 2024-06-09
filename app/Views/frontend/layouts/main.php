@@ -20,7 +20,7 @@
                    echo ' <a href="/profile/'.$user_id.'" class="button-black clear-fix">
                             <span class="click-here"></span>Profile</a>
                              <a href="/logout" class="button-black">Logout</a>
-                             <a href="#" class="button-black">Buy</a>';
+                             <a href="/packages" class="button-black">Buy</a>';
 
                 }else{
                     echo ' <a href="/login" class="button-black clear-fix">

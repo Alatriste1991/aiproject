@@ -99,6 +99,12 @@
                                                 <h5>Number of image generation remaining</h5>
                                                 <p><?php echo $generating_count; ?></p>
                                             </li>
+                                            <li>
+                                                <span>4</span>
+                                                <a href="/generation" class="button-black clear-fix">Image Generation</a>
+                                            </li>
+
+
                                         </ul>
 
                                     </div>
