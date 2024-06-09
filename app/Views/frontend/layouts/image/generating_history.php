@@ -1,9 +1,6 @@
 <style>
-    #image-generation {
-        width: 50%;
-        margin: 0 auto;
-    }
     table{
+        width: 100%;
         margin: 0 auto;
         text-align: center;
         border-collapse: collapse;
