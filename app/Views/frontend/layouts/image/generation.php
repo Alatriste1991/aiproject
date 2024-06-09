@@ -4,7 +4,7 @@
         margin: 0 auto;
     }
     @media(max-width: 992px) {
-        #add-billing-data-form {
+        #image-generation {
             width: inherit;
             margin: inherit;
         }
