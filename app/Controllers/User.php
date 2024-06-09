@@ -24,6 +24,7 @@ class User extends BaseController
     function __construct()
     {
         $this->session = session();
+        $this->is_logged_in();
         $this->userModel = new \App\Models\UserModel();
     }
 

@@ -21,6 +21,17 @@ use Psr\Log\LoggerInterface;
  */
 abstract class BaseController extends Controller
 {
+    private $session = '';
+
+
+    /**
+     * User constructor.
+     */
+    function __construct()
+    {
+        $this->session = session();
+
+    }
     /**
      * Instance of the main Request object.
      *
@@ -54,5 +65,16 @@ abstract class BaseController extends Controller
         // Preload any models, libraries, etc, here.
 
         // E.g.: $this->session = \Config\Services::session();
+    }
+
+    public function is_logged_in()
+    {
+
+        $url = (string) current_url(true);
+
+        if(!isset($_SESSION['login_data']) && !str_contains($url, 'registration') && !str_contains($url, 'login') && $url != base_url().'index.php/') {
+            header("Location: /login"); die();
+        }
+
     }
 }

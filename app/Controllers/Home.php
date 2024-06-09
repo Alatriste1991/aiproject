@@ -20,6 +20,7 @@ class Home extends BaseController
     function __construct()
     {
         $this->session = session();
+        $this->is_logged_in();
     }
 
     /**
@@ -147,5 +148,7 @@ class Home extends BaseController
 
         return redirect()->route('/');
     }
+
+
 
 }

@@ -39,6 +39,7 @@ class Package extends BaseController
     function __construct()
     {
         $this->session = session();
+        $this->is_logged_in();
         $this->user_id = $this->session->get('login_data')['user_id'];
         $this->packageModel = new \App\Models\PackageModel();
         $this->orderModel = new \App\Models\OrderModel();
