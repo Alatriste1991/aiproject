@@ -189,7 +189,7 @@ class User extends BaseController
         $data = array(
             'menus'  => array(
                 'billing_address'        => '/billing_address/'.$id,
-                'payment_history'        => '/payment_history'.$id,
+                'payment_history'        => '/order_history'.$id,
                 'generating_history'     => '/generating_history'.$id,
                 'packages'             => '/packages',
             ),
