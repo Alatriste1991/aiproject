@@ -19,7 +19,7 @@
         <!-- Main -->
         <li class="text-center clear-fix">
 
-            <h1 class="margin-bottom-0">Add payment details</h1>
+            <h1 class="margin-bottom-0">Your generated image</h1>
             <h1>You can download image if you click url below</h1>
             <a href="<?php echo $url; ?>" class="button-black clear-fix" target="_blank">CLICK</a>
 
