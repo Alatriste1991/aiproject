@@ -61,10 +61,8 @@ abstract class BaseController extends Controller
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
+        $this->activityCheck();
 
-        // Preload any models, libraries, etc, here.
-
-        // E.g.: $this->session = \Config\Services::session();
     }
 
     public function is_logged_in()
@@ -72,9 +70,23 @@ abstract class BaseController extends Controller
 
         $url = (string) current_url(true);
 
-        if(!isset($_SESSION['login_data']) && !str_contains($url, 'registration') && !str_contains($url, 'login') && $url != base_url().'index.php/') {
+        if(!isset($_SESSION['login_data']) && !str_contains($url, 'verification') && !str_contains($url, 'registration') && !str_contains($url, 'login') && $url != base_url().'index.php/') {
             header("Location: /login"); die();
         }
+
+    }
+
+    public function activityCheck(){
+
+
+       if (isset($_SESSION['login_data']['last_load_time']) && (time() - $_SESSION['login_data']['last_load_time'] >1800)){
+
+            session_unset();
+            session_destroy();
+            header("Location: /login"); die();
+        }
+
+       $_SESSION['login_data']['last_load_time'] = time();
 
     }
 }
