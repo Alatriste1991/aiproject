@@ -122,7 +122,8 @@ class Home extends BaseController
                                 'user_name'             => $user['user_name'],
                                 'user_id'               => $user['user_id'],
                                 'logged_in'             => true,
-                                'pic_generating_count'  => $generating_count['count']
+                                'pic_generating_count'  => $generating_count['count'],
+                                'last_load_time'        => time()
                             );
 
                             $this->session->set('login_data',$user_data);
