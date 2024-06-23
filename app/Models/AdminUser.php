@@ -47,4 +47,18 @@ class AdminUser extends Model
 
         return $data;
     }
+
+    function addUser($data){
+
+        $builder = $this->db->table('admins');
+        return $builder->insert($data,true);
+    }
+
+    function removeUser($id){
+
+        $builder = $this->db->table('admins');
+
+        $builder->where('admin_id', $id);
+        $builder->delete();
+    }
 }

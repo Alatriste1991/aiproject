@@ -13,12 +13,11 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="/admin/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/admin_source/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
-<script src="/admin/dist/js/adminlte.min.js"></script>
-
+<script src="/admin_source/dist/js/adminlte.min.js"></script>
+<script src="/admin_source/plugins/sweetalert2/sweetalert2.min.js"></script>
+<script src="/admin_source/main.js"></script>
 </body>
 </html>

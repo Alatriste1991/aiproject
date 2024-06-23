@@ -44,3 +44,6 @@ $routes->post('/admin/login','AdminLogin::login');
 
 $routes->get('/admin/dashboard','AdminHome::dashboard');
 $routes->get('/admin/admins','AdminHome::admins');
+$routes->get('/admin/admins/add','AdminHome::add');
+$routes->post('/admin/admins/add','AdminHome::add');
+$routes->get('/admin/admins/delete/(:any)','AdminHome::removeUser/$1');

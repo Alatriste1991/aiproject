@@ -55,7 +55,7 @@
                                             <td>'.$admin['admin_name'].'</td>
                                             <td>'.$admin['admin_email'].'</td>
                                             <td>'.$status.'</td>
-                                            <td><a class="btn btn-warning" href="/admin/admins/edit/'.$admin['admin_id'].'">Szerkesztés</a>&nbsp<a class="btn btn-danger" href="/admin/admins/delete/'.$admin['admin_id'].'">Törlés</a></td>
+                                            <td><a class="btn btn-warning" href="/admin/admins/edit/'.$admin['admin_id'].'">Szerkesztés</a>&nbsp<button class="btn btn-danger" data-action="/admin/admins/delete/'.$admin['admin_id'].'">Törlés</button></td>
                                         </tr>';
                                 }
 
@@ -72,4 +72,24 @@
 
     </section>
     <!-- /.content -->
+    <script>
+        $('.btn-danger').on('click',function () {
+            console.log($(this).attr('data-action'));
+            Swal.fire({
+                title: 'Biztosan szeretnéd törölni a felhasználót?',
+                icon: 'question',
+                showDenyButton: true,
+                confirmButtonText: "Igen",
+                denyButtonText: `Nem`
+            }).then((result) => {
+                window.location.href = $(this).attr('data-action')
+            });
+        })
+
+        $(document).ready(function () {
+            if (window.location.href.indexOf("?success=true") > -1) {
+                showPopup('success','Sikeres törlés')
+            }
+        })
+    </script>
 </div>

@@ -8,16 +8,16 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="/admin/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/admin_source/plugins/fontawesome-free/css/all.min.css">
   <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="/admin_source/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="/admin/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="/admin_source/dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="/admin/index2.html"><b>AI </b>Projekt</a>
+    <a href="/admins/login"><b>AI </b>Projekt</a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
@@ -57,14 +57,14 @@
 <!-- /.login-box -->
 
 <!-- jQuery -->
-<script src="/admin/plugins/jquery/jquery.min.js"></script>
+<script src="/admin_source/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/admin_source/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
-<script src="/admin/dist/js/adminlte.min.js"></script>
+<script src="/admin_source/dist/js/adminlte.min.js"></script>
 <!-- jquery-validation -->
-<script src="/admin/plugins/jquery-validation/jquery.validate.min.js"></script>
-<script src="/admin/plugins/jquery-validation/additional-methods.min.js"></script>
+<script src="/admin_source/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="/admin_source/plugins/jquery-validation/additional-methods.min.js"></script>
 <script>
     function showError(field,text){
         $(field).closest('.input-group').append('<span class="invalid-feedback">'+ text + '</span>');
