@@ -88,7 +88,4 @@ class AdminLogin extends AdminBaseController
         }
     }
 
-    public function dashboard(){
-        echo'teszt';
-    }
 }

@@ -39,4 +39,12 @@ class AdminUser extends Model
 
         }
     }
+
+    function getAllUser(){
+        $builder = $this->db->query('SELECT * FROM admins');
+
+        $data = $builder->getResultArray();
+
+        return $data;
+    }
 }

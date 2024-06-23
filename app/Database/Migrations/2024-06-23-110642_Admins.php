@@ -24,15 +24,15 @@ class Admins extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => '255',
             ],
-            'password' => [
+            'admin_password' => [
                 'type' => 'VARCHAR',
                 'constraint' => '255',
             ],
-            'status' => [
+            'admin_status' => [
                 'type' => 'TINYINT',
                 'constraint' => 1,
             ],
-            'created_time' => [
+            'admin_created_time' => [
                 'type' => 'TIMESTAMP',
                 'default' => new RawSql('CURRENT_TIMESTAMP'),
             ],

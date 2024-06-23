@@ -23,13 +23,11 @@ abstract class AdminBaseController extends Controller
 {
     private $session = '';
 
-
     /**
      * User constructor.
      */
     function __construct()
     {
-        $this->session = session();
 
     }
     /**
@@ -62,7 +60,21 @@ abstract class AdminBaseController extends Controller
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
         $this->activityCheck();
+        $this->session = session();
 
+    }
+
+    public function header_data(){
+        return  array(
+
+        );
+    }
+
+    public function footer_data(){
+        return  array(
+            'date'      => date('Y'),
+            'version'   => '0.1b',
+        );
     }
 
     public function is_logged_in()
@@ -70,8 +82,8 @@ abstract class AdminBaseController extends Controller
 
         $url = (string) current_url(true);
 
-        if(!isset($_SESSION['login_data']) && !str_contains($url, 'verification') && !str_contains($url, 'registration') && !str_contains($url, 'login') && $url != base_url().'index.php/') {
-            header("Location: /login"); die();
+        if(!isset($_SESSION['admin_data']) && $url != base_url().'index.php/') {
+            header("Location: /admin/login"); die();
         }
 
     }
@@ -79,14 +91,14 @@ abstract class AdminBaseController extends Controller
     public function activityCheck(){
 
 
-        if (isset($_SESSION['login_data']['last_load_time']) && (time() - $_SESSION['login_data']['last_load_time'] >1800)){
+        if (isset($_SESSION['admin_data']['last_load_time']) && (time() - $_SESSION['admin_data']['last_load_time'] >1800)){
 
             session_unset();
             session_destroy();
-            header("Location: /login"); die();
+            header("Location: /admin/login"); die();
         }
 
-        $_SESSION['login_data']['last_load_time'] = time();
+        $_SESSION['admin_data']['last_load_time'] = time();
 
     }
 }
