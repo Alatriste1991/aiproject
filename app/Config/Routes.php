@@ -36,3 +36,9 @@ $routes->get('/generating_history/(:any)', 'Image::generating_history/$1');
 
 $routes->get('/feedback', 'Feedback::index');
 $routes->post('/feedbackpost', 'Feedback::feedbackpost');
+
+//admin
+$routes->get('/admin/login','AdminLogin::login');
+$routes->post('/admin/login','AdminLogin::login');
+
+$routes->get('/admin/dashboard','AdminLogin::dashboard');
