@@ -38,6 +38,7 @@ $routes->get('/feedback', 'Feedback::index');
 $routes->post('/feedbackpost', 'Feedback::feedbackpost');
 
 //admin
+$routes->get('/admin','AdminHome::checkadminpage');
 $routes->get('/admin/login','AdminLogin::login');
 $routes->post('/admin/login','AdminLogin::login');
 

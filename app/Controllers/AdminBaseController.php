@@ -61,7 +61,7 @@ abstract class AdminBaseController extends Controller
         parent::initController($request, $response, $logger);
         $this->activityCheck();
         $this->session = session();
-
+        $this->is_admin_logged_in();
     }
 
     public function header_data(){
@@ -77,7 +77,7 @@ abstract class AdminBaseController extends Controller
         );
     }
 
-    public function is_logged_in()
+    public function is_admin_logged_in()
     {
 
         $url = (string) current_url(true);
@@ -88,7 +88,7 @@ abstract class AdminBaseController extends Controller
 
     }
 
-    public function activityCheck(){
+    public function adminactivityCheck(){
 
 
         if (isset($_SESSION['admin_data']['last_load_time']) && (time() - $_SESSION['admin_data']['last_load_time'] >1800)){
