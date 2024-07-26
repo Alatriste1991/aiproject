@@ -36,7 +36,33 @@ function showPopup(type,text) {
         icon: type,
         title: text
     })
+    
+}
 
+function generatePassword() {
 
+    let charset = "!@#$%^&*()0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let newPassword = '';
+    let passwordLength = 15
+
+    for (let i = 0; i < passwordLength; i++) {
+        newPassword += charset.charAt(
+            Math.floor(Math.random() * charset.length));
+    }
+
+    //return newPassword;
+
+    let Toast = Swal.mixin({
+        toast: true,
+        position: 'center',
+        showConfirmButton: false,
+        timer: 5000
+    });
+
+    Toast.fire({
+        icon: 'info',
+        title: 'Generált jelszó',
+        text: newPassword,
+    })
 
 }
