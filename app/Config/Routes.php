@@ -41,6 +41,7 @@ $routes->post('/feedbackpost', 'Feedback::feedbackpost');
 $routes->get('/admin','AdminHome::checkadminpage');
 $routes->get('/admin/login','AdminLogin::login');
 $routes->post('/admin/login','AdminLogin::login');
+$routes->post('/admin/logout','AdminLogin::logout');
 
 $routes->get('/admin/dashboard','AdminHome::dashboard');
 $routes->get('/admin/admins','AdminHome::admins');

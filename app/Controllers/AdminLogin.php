@@ -95,4 +95,10 @@ class AdminLogin extends AdminBaseController
         }
     }
 
+    public function logout(){
+        $this->session->destroy();
+
+        return redirect()->route('/admin/login');
+    }
+
 }
