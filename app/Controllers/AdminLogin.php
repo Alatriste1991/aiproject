@@ -54,30 +54,37 @@ class AdminLogin extends AdminBaseController
 
                print json_encode($response);exit;
            }else{
-               if(!password_verify($data['password'],$user['admin_password'])){
+               if($data['admin_status'] == 0){
                    $response['error'] = 1;
-                   $response['password'] = 1;
-                   $response['info'] = 'Password is incorrect';
+                   $response['info'] = 'This profile is inactive';
 
                    print json_encode($response);exit;
                }else{
+                   if(!password_verify($data['password'],$user['admin_password'])){
+                       $response['error'] = 1;
+                       $response['password'] = 1;
+                       $response['info'] = 'Password is incorrect';
 
-                   $admin_data = array(
-                       'login_time'            => date('Y-m-d H:i:s'),
-                       'admin_email'            => $user['admin_email'],
-                       'admin_name'             => $user['admin_name'],
-                       'admin_id'               => $user['admin_id'],
-                       'logged_in'             => true,
-                       'last_load_time'        => time()
-                   );
+                       print json_encode($response);exit;
+                   }else{
 
-                   $this->session->set('admin_data',$admin_data);
+                       $admin_data = array(
+                           'login_time'            => date('Y-m-d H:i:s'),
+                           'admin_email'            => $user['admin_email'],
+                           'admin_name'             => $user['admin_name'],
+                           'admin_id'               => $user['admin_id'],
+                           'logged_in'             => true,
+                           'last_load_time'        => time()
+                       );
 
-                   $response['error'] = 0;
-                   $response['email'] = 0;
-                   $response['password'] = 0;
+                       $this->session->set('admin_data',$admin_data);
 
-                   print json_encode($response);exit;
+                       $response['error'] = 0;
+                       $response['email'] = 0;
+                       $response['password'] = 0;
+
+                       print json_encode($response);exit;
+                   }
                }
            }
 
