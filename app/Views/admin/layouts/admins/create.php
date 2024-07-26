@@ -40,7 +40,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Jelszó</label>
-                                    <input type="password" class="form-control" name="password" id="password" placeholder="Jelszó">
+                                    <div class="input-group mb-3">
+                                        <input type="password" class="form-control" name="password" id="password" placeholder="Jelszó">
+                                        <div class="input-group-append">
+                                            <span style="cursor: pointer" onclick="generatePassword()" class="input-group-text"><i class="fas fa-solid fa-lock"></i></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-footer">
