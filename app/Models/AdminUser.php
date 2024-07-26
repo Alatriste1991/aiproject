@@ -61,4 +61,13 @@ class AdminUser extends Model
         $builder->where('admin_id', $id);
         $builder->delete();
     }
+
+    function editUser($data,$id){
+
+        $builder = $this->db->table('admins');
+
+        $builder->set($data);
+        $builder->where('admin_id', $id);
+        return $builder->update();
+    }
 }

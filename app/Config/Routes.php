@@ -47,3 +47,6 @@ $routes->get('/admin/admins','AdminHome::admins');
 $routes->get('/admin/admins/add','AdminHome::addUser');
 $routes->post('/admin/admins/add','AdminHome::addUser');
 $routes->get('/admin/admins/delete/(:any)','AdminHome::removeUser/$1');
+$routes->get('/admin/admins/edit/(:any)','AdminHome::editUser/$1');
+
+$routes->post('/admin/admins/edit/(:any)','AdminHome::editUser/$1');

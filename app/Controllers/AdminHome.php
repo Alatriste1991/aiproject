@@ -163,4 +163,88 @@ class AdminHome extends AdminBaseController
 
     }
 
+
+    public function editUser($id){
+
+        if ($this->request->isAJAX()) {
+
+            $error = 0;
+            $data = array(
+                'admin_id'          => $_POST['admin_id'],
+                'admin_name'        => $_POST['admin_name'],
+                'admin_password'    => $_POST['admin_password'],
+            );
+
+
+            if (strlen($data['admin_name']) < 3 || strlen($data['admin_name']) > 100) {
+                $error = 1;
+                $response['error'] = 1;
+                $response['user_name'] = 1;
+                $response['info']['user_name'] = 'A név minimum 3, maximum 100 karakter lehet!';
+            }
+
+            if (preg_match('~[0-9]+~', $data['admin_name'])) {
+                $error = 1;
+                $response['error'] = 1;
+                $response['user_name'] = 1;
+                $response['info']['user_name'] = 'A név nem tartalmazhat számokat';
+            }
+
+            if($data['admin_password'] == ''){
+                unset($data['admin_password']);
+            }else{
+                if (strlen($data['admin_password']) < 5 || strlen($data['admin_password']) > 12) {
+                    $error = 1;
+                    $response['error'] = 1;
+                    $response['password'] = 1;
+                    $response['info']['password'] = 'A jelszó minimum 5 és maximum 12 karakter hosszú lehet!';
+                }
+            }
+
+            if($error == 1){
+                print json_encode($response);
+                exit;
+            }else{
+                if(isset($data['admin_password'])){
+                    $data['admin_password'] = password_hash($data['admin_password'], PASSWORD_DEFAULT);
+                }
+
+                $editUser = $this->adminUser->editUser($data,$id);
+
+                if ($editUser == false) {
+                    $response['error'] = 1;
+                    $response['all'] = 1;
+                    $response['info']['all'] = 'Sikertelen szerkesztés';
+                } else {
+                    $response['error'] = 0;
+                    $response['info']['all'] = 'Sikeresen szerkesztés';
+                }
+
+                print json_encode($response);
+                exit;
+            }
+            echo'<pre>';
+            var_dump($_POST);
+            echo'</pre>';
+        }else{
+
+            $params = array(
+                'admin_id' => $id
+            );
+
+            $user = $this->adminUser->getUser($params);
+
+            $data = array(
+                'user_name' => $user['admin_name'],
+                'breadcrumbs' => array(0 => 'Műszerfal', 1 => $user['admin_name'].' profil szerkesztése'),
+                'page_name' => $user['admin_name'].' profil szerkesztése',
+                'user_data' => $user,
+            );
+            return view('admin/header', $this->header_data())
+                . view('admin/sidebar', $data)
+                . view('admin/layouts/admins/edit')
+                . view('admin/footer', $this->footer_data());
+        }
+    }
+
 }
