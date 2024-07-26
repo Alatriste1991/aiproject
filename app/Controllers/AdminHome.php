@@ -51,7 +51,7 @@ class AdminHome extends AdminBaseController
         );
         return view('admin/header', $this->header_data())
             .view('admin/sidebar',$data)
-            .view('admin/layouts/admins/index')
+            .view('admin/layouts/admins/admin/index')
             .view('admin/footer',$this->footer_data());
     }
 
@@ -148,7 +148,7 @@ class AdminHome extends AdminBaseController
             );
             return view('admin/header', $this->header_data())
                 . view('admin/sidebar', $data)
-                . view('admin/layouts/admins/create')
+                . view('admin/layouts/admins/admin/create')
                 . view('admin/footer', $this->footer_data());
 
         }
@@ -223,9 +223,7 @@ class AdminHome extends AdminBaseController
                 print json_encode($response);
                 exit;
             }
-            echo'<pre>';
-            var_dump($_POST);
-            echo'</pre>';
+
         }else{
 
             $params = array(
@@ -242,7 +240,7 @@ class AdminHome extends AdminBaseController
             );
             return view('admin/header', $this->header_data())
                 . view('admin/sidebar', $data)
-                . view('admin/layouts/admins/edit')
+                . view('admin/layouts/admins/admin/edit')
                 . view('admin/footer', $this->footer_data());
         }
     }
