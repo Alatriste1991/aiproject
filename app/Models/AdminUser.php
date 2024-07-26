@@ -70,4 +70,17 @@ class AdminUser extends Model
         $builder->where('admin_id', $id);
         return $builder->update();
     }
+
+
+    /* frontUsers*/
+
+
+    function getAllFrontUser(){
+
+        $builder = $this->db->query('SELECT * FROM users');
+
+        $data = $builder->getResultArray();
+
+        return $data;
+    }
 }

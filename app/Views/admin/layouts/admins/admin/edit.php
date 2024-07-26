@@ -82,8 +82,8 @@
     <script>
 
         $('.btn-primary').on('click', function(){
-            resetError('#email');
-            resetError('#password');
+            resetError('#admin_name');
+            resetError('#admin_password');
             btnLoading($(this),1,'Töltés');
 
             $.ajax({
@@ -97,15 +97,11 @@
                     if(data.error == 1){
 
                         if(data.user_name == 1){
-                            showError('.form-group','#user_name',data.info.user_name)
-                        }
-
-                        if(data.email == 1){
-                            showError('.form-group','#email',data.info.email)
+                            showError('.form-group','#admin_name',data.info.user_name)
                         }
 
                         if(data.password == 1){
-                            showError('.form-group','#password',data.info.password)
+                            showError('.form-group','#admin_password',data.info.password)
                         }
 
                         if(data.all == 1){

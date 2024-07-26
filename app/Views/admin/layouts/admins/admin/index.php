@@ -74,7 +74,6 @@
     <!-- /.content -->
     <script>
         $('.btn-danger').on('click',function () {
-            console.log($(this).attr('data-action'));
             Swal.fire({
                 title: 'Biztosan szeretnéd törölni a felhasználót?',
                 icon: 'question',
