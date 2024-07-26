@@ -55,7 +55,7 @@ class AdminHome extends AdminBaseController
             .view('admin/footer',$this->footer_data());
     }
 
-    public function add(){
+    public function addUser(){
 
         if ($this->request->isAJAX()) {
 
@@ -96,7 +96,7 @@ class AdminHome extends AdminBaseController
                 $response['info']['user_name'] = 'A név nem tartalmazhat számokat';
             }
 
-            if (strlen($data['admin_password']) < 5 || strlen($data['admin_password']) > 12) {
+            if (strlen($data['admin_password']) < 5 || strlen($data['admin_password']) > 20) {
                 $error = 1;
                 $response['error'] = 1;
                 $response['password'] = 1;
