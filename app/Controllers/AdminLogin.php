@@ -54,7 +54,7 @@ class AdminLogin extends AdminBaseController
 
                print json_encode($response);exit;
            }else{
-               if($data['admin_status'] == 0){
+               if($user['admin_status'] == 0){
                    $response['error'] = 1;
                    $response['info'] = 'This profile is inactive';
 
