@@ -29,11 +29,11 @@ class Home extends BaseController
     public function index(): string
     {
 
-        if($this->session->has('login_data')){
+        if(isset($_SESSION['login_data'])){
 
             $data = array(
-                'user_name' => $this->session->get('login_data')['user_name'],
-                'user_id' => $this->session->get('login_data')['user_id']
+                'user_name' => $_SESSION['login_data']['user_name'],
+                'user_id' => $_SESSION['login_data']['user_id']
             );
             return view('frontend/header')
                 .view('frontend/layouts/main', $data)
@@ -126,7 +126,7 @@ class Home extends BaseController
                                 'last_load_time'        => time()
                             );
 
-                            $this->session->set('login_data',$user_data);
+                            $_SESSION['login_data'] = $user_data;
                         }
                     }
                 }
