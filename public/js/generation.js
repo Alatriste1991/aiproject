@@ -3,6 +3,8 @@
 
 function submitGenerateFormReg()
 {
+    $("#images").fadeOut();
+    $("hr").fadeOut();
     blockForm('image-generation','block');
     $.post('/generate',$('#image-generation').serialize(),submitGenerateFormResponseReg,'json');
 }
@@ -40,7 +42,7 @@ function submitGenerateFormResponseReg(response)
             }
             window.setTimeout(
                 function(){
-                    blockForm('reg-form','unblock');
+                    blockForm('image-generation','unblock');
                 },2000
             );
         }
@@ -49,7 +51,15 @@ function submitGenerateFormResponseReg(response)
     if(!error)
     {
         $('#generation-text').val('').blur();
-        window.setTimeout(function() { $('#submit').qtip('destroy'); window.location.href = '/image/'+response.id},2000);
+        //window.setTimeout(function() { $('#submit').qtip('destroy'); window.location.href = '/image/'+response.id},2000);
+        window.setTimeout(function() {
+            $('#submit').qtip('destroy');
+            $('#image_1').attr('src','data:image/png;base64,'+ response.id);
+            $('#image_1_download').attr('href',response.url);
+            $("#images").fadeIn(1800);
+            $("hr").fadeIn(1800);
+        },
+        1000);
     }
 }
 

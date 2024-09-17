@@ -80,6 +80,14 @@ p
 	padding:10px 0px 10px 0px;
 }
 
+.inactive {
+	display: none;
+}
+
+.active {
+	visibility: visible;
+}
+
 p,div.contact-details
 {
 	line-height:150%;

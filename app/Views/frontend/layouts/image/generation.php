@@ -46,6 +46,22 @@
 
             </form>
 
+            <hr class="inactive" style="margin: 10px 0;">
+            <div id="images" class="inactive clear-fix" style="width: 50%;margin: 0 auto;">
+
+                <ul class="no-list form-line">
+
+                    <li class="clear-fix block">
+                        <img id="image_1" src="">
+                        <a  id="image_1_download" href="" class="button-black clear-fix" target="_blank">CLICK</a>
+
+                    </li>
+
+
+                </ul>
+
+            </div>
+
             <?php }else{ ?>
                 <h1 class="margin-bottom-0">Add image details</h1>
                 <h1>You can't generate image!</h1>

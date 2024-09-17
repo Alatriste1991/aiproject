@@ -66,7 +66,8 @@ class Image extends BaseController
 
                    $response['error'] = 0;
                    $response['info'][]=array('fieldId'=>'submit','message'=>'Generate successfull!');
-                   $response['id'] = $image;
+                   $response['id'] = $this->ImageModel->getImage($this->user_id,$image)[0]['image'];//exit;//$image;
+                   $response['url'] = base_url().'downloadImage/'.$image;
                }else{
                    $response['error'] = 1;
                    $response['info'][] = array('fieldId'=>'generation-text','message'=>$image['error']['message']);
@@ -80,16 +81,6 @@ class Image extends BaseController
 
         print json_encode($response);
 
-    }
-
-    public function image($id){
-
-        $data = array(
-            'url' => base_url().'downloadImage/'.$id);
-
-        return view('frontend/header')
-            .view('frontend/layouts/image/image', $data)
-            .view('frontend/footer');
     }
 
     public function downloadImage($hash){
