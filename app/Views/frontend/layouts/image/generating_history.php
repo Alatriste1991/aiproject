@@ -60,7 +60,7 @@
                 } ?>
                 </tbody>
             </table>
-
+                <?= $links ?>
             <?php }else{ ?>
                 <h3>You haven't generated any pictures yet. <br><br> <a href="/generation" class="button-black clear-fix">Do it</a> </h3>
             <?php } ?>

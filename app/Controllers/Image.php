@@ -20,6 +20,8 @@ class Image extends BaseController
 
     private $user_id = '';
 
+    protected $db = '';
+
     /**
      * Home constructor.
      */
@@ -30,6 +32,7 @@ class Image extends BaseController
         $this->user_id = $this->session->get('login_data')['user_id'];
         $this->ImageModel = new \App\Models\ImageModel();
         $this->PackageModel = new \App\Models\PackageModel();
+        $this->db = \Config\Database::connect();
     }
 
     public function generation(){
@@ -100,10 +103,24 @@ class Image extends BaseController
 
     public function generating_history($user_id){
 
-        $images = $this->ImageModel->getAllImagesbyUserId($user_id);
+        $pager = service('pager');
+        $this->db->connect();
+        $page = (@$_GET['page']) ? $_GET['page'] : 1;
+        $perPage=10;
+        $offset = ($page-1) * $perPage;
+        $builder = $this->db->table('images');
+        $images = $builder
+            ->select('*')
+            ->where('user_id',$user_id)
+            ->orderBy('created_time','DESC')
+            ->get($perPage,$offset)
+            ->getResultArray();
+
+        $total = $builder->where('user_id',$user_id)->countAllResults();
 
         $data = array(
-            'data' => $images
+            'data' => $images,
+            'links' => $pager->makeLinks($page,$perPage,$total,'custom_view')
         );
 
         return view('frontend/header')

@@ -64,7 +64,7 @@
                     } ?>
                     </tbody>
                 </table>
-
+                <?= $links ?>
             <?php }else{ ?>
                 <h3>You haven't bought any package yet. <br><br> <a href="/packages" class="button-black clear-fix">Do it</a> </h3>
             <?php } ?>
