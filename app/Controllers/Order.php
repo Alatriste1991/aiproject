@@ -21,8 +21,6 @@ class Order extends BaseController {
 
     private $orderModel = '';
 
-    protected $db = '';
-
     function __construct()
     {
         $this->session = session();
@@ -31,7 +29,6 @@ class Order extends BaseController {
         $this->packageModel = new \App\Models\PackageModel();
         $this->orderModel = new \App\Models\OrderModel();
         $this->userModel = new \App\Models\userModel();
-        $this->db = \Config\Database::connect();
     }
 
     public function add_order(){
@@ -96,20 +93,14 @@ class Order extends BaseController {
     public function order_history($user_id){
 
         $pager = service('pager');
-        $this->db->connect();
         $page = (@$_GET['page']) ? $_GET['page'] : 1;
         $perPage=10;
         $offset = ($page-1) * $perPage;
-        $builder = $this->db->table('orders');
-        $data['orders'] = $builder->select('*')
-            ->join('order_package','orders.order_id = order_package.order_id','inner')
-            ->where('user_id',$user_id)
-            ->orderBy('created_time','DESC')
-            ->get($perPage,$offset)
-            ->getResultArray();
 
-        $total = $builder->where('user_id',$user_id)->countAllResults();
-        $data['links'] = $pager->makeLinks($page,$perPage,$total,'custom_view');
+        $pagination = $this->orderModel->OrderPagination($user_id,$perPage,$offset);
+
+        $data['orders'] = $pagination['orders'];
+        $data['links'] = $pager->makeLinks($page,$perPage,$pagination['total'],'custom_view');
 
         return view('frontend/header')
             .view('frontend/layouts/order/order_history', $data)

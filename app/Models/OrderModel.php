@@ -83,4 +83,19 @@ class OrderModel extends Model
         return $data;
     }
 
+    function OrderPagination($user_id,$perPage,$offset){
+
+        $builder = $this->db->table('orders');
+        $data['orders'] = $builder->select('*')
+            ->join('order_package','orders.order_id = order_package.order_id','inner')
+            ->where('user_id',$user_id)
+            ->orderBy('created_time','DESC')
+            ->get($perPage,$offset)
+            ->getResultArray();
+
+        $data['total'] = $builder->where('user_id',$user_id)->countAllResults();
+
+        return $data;
+    }
+
 }

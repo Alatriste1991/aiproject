@@ -189,4 +189,20 @@ class ImageModel extends Model
         $data = $builder->getResultArray();
         return $data;
     }
+
+    function imagePagination($user_id,$perPage,$offset){
+
+        $builder = $this->db->table('images');
+
+        $data['images'] = $builder
+            ->select('*')
+            ->where('user_id',$user_id)
+            ->orderBy('created_time','DESC')
+            ->get($perPage,$offset)
+            ->getResultArray();
+
+        $data['total'] = $builder->where('user_id',$user_id)->countAllResults();
+
+        return $data;
+    }
 }
