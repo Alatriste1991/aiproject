@@ -15,7 +15,6 @@ class UserModel extends Model
      * @var string
      */
     protected $table = 'users';
-
     /**
      * @var array
      */
@@ -48,6 +47,15 @@ class UserModel extends Model
     function addUser($data){
 
         return $this->insert($data,true);
+    }
+
+    function editUser($data,$user_id){
+        $db      = \Config\Database::connect();
+
+        $builder = $db->table('users');
+        $builder->set($data);
+        $builder->where('user_id', $user_id);
+        $builder->update();
     }
 
     /**
@@ -132,6 +140,53 @@ class UserModel extends Model
         $builder = $db->table('user_billing_data');
 
         $builder->where('billing_data_id', $id);
+        $builder->delete();
+    }
+
+    function checkVerificationId($params){
+        $db      = \Config\Database::connect();
+
+        $builder = $db->table('verification_id');
+
+        $data = $builder->getWhere($params)->getResultArray();
+
+        if(!empty($data)){
+
+            if(time() - strtotime($data[0]['created_time']) < 600){ //10 perc
+                return true;
+            } else{
+                $builder->where($params)
+                ->delete();
+                return false;
+
+            }
+
+        }else{
+            return false;
+
+        }
+    }
+
+    function addVerificationId($verification_id,$userid){
+
+        $data = array(
+            'user_id'           =>  $userid,
+            'verification_id'   => $verification_id
+        );
+
+        $db      = \Config\Database::connect();
+
+        $builder = $db->table('verification_id');
+
+        $builder->insert($data,true);
+    }
+
+    function deleteVerificationId($verification_id){
+        $db      = \Config\Database::connect();
+
+        $builder = $db->table('verification_id');
+
+        $builder->where('verification_id', $verification_id);
         $builder->delete();
     }
 }

@@ -18,6 +18,8 @@ class User extends BaseController
      */
     private $userModel = '';
 
+    private $email = '';
+
     /**
      * User constructor.
      */
@@ -26,6 +28,7 @@ class User extends BaseController
         $this->session = session();
         $this->is_logged_in();
         $this->userModel = new \App\Models\UserModel();
+        $this->email = new \App\Controllers\Email();
     }
 
     /**
@@ -34,7 +37,6 @@ class User extends BaseController
      */
     public function checkUser($id){
         $params['user_id'] = $id;
-
         return $this->userModel->getUser($params)['status'];
 
 
@@ -119,6 +121,12 @@ class User extends BaseController
                     $packageModel = new \App\Models\PackageModel();
                     $packageModel->update_user_generating_count($addUser,5);
 
+                    $verification_url = $this->createVerificationUrl($addUser);
+                    $body = 'Dear '.$data['user_name'].',<br> If you want to finish registration process, please click this url below:<br><br>
+                        <a href="'.$verification_url.'" target="_blank">CLICK</a>';
+
+                    $this->email->send($data['user_email'],'AI project Verification',$body);
+
                     if($addUser == false){
                         $response['error']=1;
                         $response['info'][]=array('fieldId'=>'reg-mail','message'=>'Registration unsuccessful!');
@@ -151,27 +159,39 @@ class User extends BaseController
      * @return string
      */
     public function profile($id){
-        
-        $status = $this->checkUser($id);
 
+        $status = $this->checkUser($id);
+        //var_dump($status);exit;
         $data = array();
 
-        if($status == 2){
-            $data['message'] = 'Profile not verified yet!';
-        }else{
-            $packageModel = new \App\Models\PackageModel();
-           $data = array(
-               'menus'  => array(
-                   'billing_address'        => '/billing_address/'.$id,
-                   'payment_history'        => '/payment_history/'.$id,
-                   'generating_history'     => '/generating_history/'.$id,
-                   'packages'             => '/packages',
-               ),
-               'user_name' => $this->session->get('login_data')['user_name'],
-               'user_email' => $this->session->get('login_data')['user_email'],
-               'login_time' => $this->session->get('login_data')['login_time'],
-               'generating_count' => $packageModel->get_user_generating_count($id)['count']
-           );
+        switch ($status){
+            case 0:
+                $data['message'] = 'Profile deleted!';
+                break;
+
+            case 1:
+                $data['message'] = 'Profile disabled!';
+                break;
+
+            case 2:
+                $data['message'] = 'Profile not verified yet!';
+                break;
+
+            case 3:
+                $packageModel = new \App\Models\PackageModel();
+                $data = array(
+                    'menus'  => array(
+                        'billing_address'        => '/billing_address/'.$id,
+                        'payment_history'        => '/order_history/'.$id,
+                        'generating_history'     => '/generating_history/'.$id,
+                        'packages'             => '/packages',
+                    ),
+                    'user_name' => $this->session->get('login_data')['user_name'],
+                    'user_email' => $this->session->get('login_data')['user_email'],
+                    'login_time' => $this->session->get('login_data')['login_time'],
+                    'generating_count' => $packageModel->get_user_generating_count($id)['count']
+                );
+                break;
         }
 
         return view('frontend/header')
@@ -336,4 +356,80 @@ class User extends BaseController
 
         return redirect()->to('/billing_address/'.$user_id);
     }
+
+    public function createVerificationUrl($userid){
+
+        $verification_id = $this->createVerificationid($userid);
+
+        $url = base_url().'verification/'.$userid.'/'.$verification_id;
+
+        return $url;
+
+    }
+
+    function createVerificationid($userid){
+
+        $id = md5(uniqid(rand(), true));
+
+        if($this->userModel->checkVerificationId(array('verification_id' => $id)) == false){
+
+            $this->userModel->addVerificationId($id,$userid);
+
+            return $id;
+        }else{
+            $this->createVerificationid($userid);
+        }
+
+    }
+
+    public function verification($user_id,$verification_id){
+
+        if($this->userModel->checkVerificationId(array('verification_id' => $verification_id)) == true){
+
+            $params = array(
+                'status'   => 3
+            );
+
+            $this->userModel->editUser($params,$user_id);
+
+            $this->userModel->deleteVerificationId($verification_id);
+
+            return redirect()->to('/login');
+        }else{
+
+            $data['message'] = 'Verification url is not active!';
+
+            $data['resend_verification'] = base_url().'resendVerificationEmail/'.$user_id;
+
+            return view('frontend/header')
+                .view('frontend/layouts/profile',$data)
+                .view('frontend/footer');
+        }
+    }
+
+    public function verification_confirm(){
+
+        return view('frontend/header')
+            .view('frontend/layouts/users/verification_confirm')
+            .view('frontend/footer');
+    }
+
+    public function resendVerificationEmail($user_id){
+
+        $params['user_id'] = $user_id;
+
+        if($this->userModel->checkVerificationId($params) == false){
+
+            $verification_url = $this->createVerificationUrl($user_id);
+
+            $user = $this->userModel->getUser($params);
+            $body = 'Dear '.$user['user_name'].',<br> If you want to finish registration process, please click this url below:<br><br>
+	        <a href="'.$verification_url.'" target="_blank">CLICK</a>';
+
+            $this->email->send($user['user_email'],'AI project Verification',$body);
+        }
+
+        header('Location: /verification_confirm'); die();
+    }
+
 }
