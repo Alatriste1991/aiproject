@@ -88,6 +88,30 @@ p
 	visibility: visible;
 }
 
+/*pagination */
+
+.pagination-ul{
+	margin: 20px auto;
+	list-style-type: none;
+}
+
+.pagination-li {
+	display: inline-block;
+}
+
+.page-link {
+	padding: 10px 15px;
+	background: #000000;
+}
+
+.pagination_active a{
+	color: #000000!important;
+	background: #ffffff!important;
+	border: 1px solid #000000
+}
+
+/*pagination */
+
 p,div.contact-details
 {
 	line-height:150%;
