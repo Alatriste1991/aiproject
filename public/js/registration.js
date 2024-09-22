@@ -52,7 +52,7 @@ function submitContactFormResponseReg(response)
     if(!error)
     {
         $('#reg-mail,#reg-username,#reg-password1,#reg-password2').val('').blur();
-        window.setTimeout(function() { $('#submit').qtip('destroy'); window.location.href = '/profile/' +response.id},2000);
+        window.setTimeout(function() { $('#submit').qtip('destroy'); window.location.href = '/verification_confirm'},2000);
     }
 }
 
