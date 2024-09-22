@@ -29,7 +29,6 @@ abstract class BaseController extends Controller
      */
     function __construct()
     {
-        $this->session = session();
 
     }
     /**
@@ -46,7 +45,7 @@ abstract class BaseController extends Controller
      *
      * @var array
      */
-    protected $helpers = [];
+    protected $helpers = ['base'];
 
     /**
      * Be sure to declare properties for any property fetch you initialized.
@@ -61,6 +60,7 @@ abstract class BaseController extends Controller
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
+        $this->session = session();
         $this->activityCheck();
 
     }
@@ -77,16 +77,16 @@ abstract class BaseController extends Controller
     }
 
     public function activityCheck(){
+        if(isset($_SESSION['login_data'])) {
+            if (isset($_SESSION['login_data']['last_load_time']) && (time() - $_SESSION['login_data']['last_load_time'] > 1800)) { //1800
 
-
-       if (isset($_SESSION['login_data']['last_load_time']) && (time() - $_SESSION['login_data']['last_load_time'] >1800)){
-
-            session_unset();
-            session_destroy();
-            header("Location: /login"); die();
+                session_unset();
+                session_destroy();
+                header("Location: /login");
+                die();
+            }
+            $_SESSION['login_data']['last_load_time'] = time();
         }
-
-       $_SESSION['login_data']['last_load_time'] = time();
 
     }
 }
