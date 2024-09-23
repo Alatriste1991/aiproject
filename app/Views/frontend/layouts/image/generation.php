@@ -53,7 +53,7 @@
 
                     <li class="clear-fix block">
                         <img id="image_1" src="">
-                        <a  id="image_1_download" href="" class="button-black clear-fix" target="_blank">CLICK</a>
+                        <a  id="image_1_download" href="" class="button-black clear-fix" target="_blank">Download</a>
 
                     </li>
 
