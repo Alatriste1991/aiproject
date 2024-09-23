@@ -5,9 +5,11 @@
         <?php
             if(isset($message)){
                 echo '<li class="text-center clear-fix">
-                        <h1>'.$message.'</h1>
-                        <h3><a class="button-black clear-fix" href="'.$resend_verification.'" target="_blank">Resend verification email</a></h3>
-                    </li>';
+                        <h1>'.$message.'</h1>';
+                if(isset($resend_verification)){
+                   echo' <h3><a class="button-black clear-fix" href="'.$resend_verification.'" target="_blank">Resend verification email</a></h3>';
+                }
+                echo    '</li>';
             }else{
             ?>
                 <!-- Features -->
