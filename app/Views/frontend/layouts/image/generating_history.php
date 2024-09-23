@@ -45,6 +45,7 @@
                     <th>Prompt</th>
                     <th>Download</th>
                     <th>Created Time</th>
+                    <th>Preview</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -53,9 +54,10 @@
 
                     echo '<tr><td>'.$count.'</td>
                                   <td>'.$adat['prompt'].'</td>
-                                  <td><a href="/downloadImage/'.$adat['image_url_id'].'" class="button-black clear-fix" target="_blank">CLICK</a> </td>
-                                  <td>'.$adat['created_time'].'</td></tr>';
-
+                                  <td><a href="/downloadImage/'.$adat['image_url_id'].'" class="button-black clear-fix" target="_blank">DOWNLOAD</a> </td>
+                                  <td>'.$adat['created_time'].'</td>
+                                  <td><img style="width: 50%" src="data:image/png;base64,'.$adat['image'].'"></td>
+                                  </tr>';
                     $count++;
                 } ?>
                 </tbody>
