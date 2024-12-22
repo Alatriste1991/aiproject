@@ -38,6 +38,8 @@ abstract class BaseController extends Controller
      */
     protected $request;
 
+    protected $userInfo;
+
     /**
      * An array of helpers to be loaded automatically upon
      * class instantiation. These helpers will be available
@@ -63,6 +65,15 @@ abstract class BaseController extends Controller
         $this->session = session();
         $this->activityCheck();
 
+        $this->userInfo = [
+            'ip_address' => $this->request->getIPAddress(),
+            'user_agent' => $this->request->getUserAgent()
+        ];
+
+        $this->userInfo['browser'] = $this->userInfo['user_agent']->getBrowser();
+        $this->userInfo['browser_version'] = $this->userInfo['user_agent']->getVersion();
+        $this->userInfo['platform'] = $this->userInfo['user_agent']->getPlatform();
+
     }
 
     public function is_logged_in()
@@ -70,7 +81,7 @@ abstract class BaseController extends Controller
 
         $url = (string) current_url(true);
 
-        if(!isset($_SESSION['login_data']) && !str_contains($url, 'verification') && !str_contains($url, 'registration') && !str_contains($url, 'login') && $url != base_url().'index.php/') {
+        if(!isset($_SESSION['login_data']) && !str_contains($url, 'verification') && !str_contains($url, 'resendVerificationEmail') && !str_contains($url, 'registration') && !str_contains($url, 'login') && $url != base_url().'index.php/') {
             header("Location: /login"); die();
         }
 

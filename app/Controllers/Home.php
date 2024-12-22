@@ -14,13 +14,21 @@ class Home extends BaseController
      */
     private $session = '';
 
+    private $ImageModel = array();
+
+    private $LogModel = '';
+
     /**
      * Home constructor.
      */
     function __construct()
     {
-        $this->session = session();
-        $this->is_logged_in();
+
+        $this->ImageModel = new \App\Models\ImageModel();
+
+        $this->LogModel = new \App\Models\LoginModel();
+
+
     }
 
     /**
@@ -40,7 +48,7 @@ class Home extends BaseController
                 .view('frontend/footer');
         }else{
             return view('frontend/header')
-                .view('frontend/layouts/main')
+                .view('frontend/layouts/main',$data)
                 .view('frontend/footer');
         }
 
@@ -55,101 +63,160 @@ class Home extends BaseController
      * status 2 - registered, but not verified
      * status 3 - registered and verified
      */
-    public function login(){
+    public function login()
+    {
+        if ($this->request->isAJAX()) {
+            try {
+                $log = '';
+                $error = 0;
+                $model = new \App\Models\UserModel();
+                $response = ['error' => 0, 'info' => null];
 
-        if($this->request->isAJAX()){
+                $values = [
+                    'login-mail' => $this->request->getPost('login-mail'),
+                    'login-password' => $this->request->getPost('login-password'),
+                ];
 
-            $error = 0;
-            $model = new \App\Models\UserModel();
+                if (!filter_var($values['login-mail'], FILTER_VALIDATE_EMAIL)) {
+                    $error = 1;
+                    $response['error'] = 1;
+                    $response['info'][] = ['fieldId' => 'login-mail', 'message' => 'Invalid email format!'];
+                    $log .= "Login attempt with invalid email format: '{$values['login-mail']}' - ";
+                }
 
-            $response = array('error'=>0,'info'=>null);
+                if (empty($values['login-password'])) {
+                    $error = 1;
+                    $response['error'] = 1;
+                    $response['info'][] = ['fieldId' => 'login-password', 'message' => 'Password cannot be empty!'];
+                    $log .= "Login attempt with empty password for email: '{$values['login-mail']}'";
+                }
 
-            $values = array
-            (
-                'login-mail'						=> $_POST['login-mail'],
-                'login-password'					=> $_POST['login-password'],
-            );
+                if($log != ''){
+                    $this->LogModel->info('login', $this->userInfo, $log);
+                }
 
-            if(!filter_var($values['login-mail'],FILTER_VALIDATE_EMAIL))
-            {
-                $error = 1;
-                $response['error']=1;
-                $response['info'][]=array('fieldId'=>'login-mail','message'=>'Invalid email format!');
-            }
+                if ($error == 0) {
+                    $params = ['user_email' => $values['login-mail']];
+                    $user = $model->getUser($params);
+                    $packageModel = new \App\Models\PackageModel();
 
+                    if ($user === false) {
+                        $response['error'] = 1;
+                        $response['info'][] = ['fieldId' => 'login-password', 'message' => 'User not found'];
+                        $this->LogModel->info('login', $this->userInfo, "Login attempt for non-existent user: {$values['login-mail']}");
+                    } else {
+                        $generating_count = $packageModel->get_user_generating_count($user['user_id']);
 
-            if(!mb_strlen($values['login-password']))
-            {
-                $error = 1;
-                $response['error']=1;
-                $response['info'][]=array('fieldId'=>'login-password','message'=>'Password cannot be empty!');
-            }
-
-            if($error == 0){
-
-                $params = array(
-                    'user_email'     => $values['login-mail']
-                );
-
-                $user = $model->getUser($params);
-                $packageModel = new \App\Models\PackageModel();
-
-                $generating_count =  $packageModel->get_user_generating_count($user['user_id']);
-
-
-                if($user == false){
-                    $response['error']=1;
-                    $response['info'][]=array('fieldId'=>'login-password','message'=>'User not found');
-                }else{
-
-                    if(!password_verify($values['login-password'],$user['password'])){
-                        $response['error']=1;
-                        $response['info'][]=array('fieldId'=>'login-password','message'=>'Password is incorrect!');
-                    }else{
-                        if($user['status'] == 1){
-                            $response['error']=1;
-                            $response['info'][]=array('fieldId'=>'login-mail','message'=>'This account disabled!');
-                        }else{
-                            $response['error']=0;
-                            $response['info'][]=array('fieldId'=>'submit','message'=>'Login successful');
+                        if (!password_verify($values['login-password'], $user['password'])) {
+                            $response['error'] = 1;
+                            $response['info'][] = ['fieldId' => 'login-password', 'message' => 'Password is incorrect!'];
+                            $this->LogModel->info('login', $this->userInfo, "Login attempt with incorrect password for user: {$values['login-mail']}");
+                        } elseif ($user['status'] == 1) {
+                            $response['error'] = 1;
+                            $response['info'][] = ['fieldId' => 'login-mail', 'message' => 'This account is disabled!'];
+                            $this->LogModel->info('login', $this->userInfo, "Login attempt to disabled account: {$values['login-mail']}");
+                        } else {
+                            $response['error'] = 0;
+                            $response['info'][] = ['fieldId' => 'submit', 'message' => 'Login successful'];
                             $response['id'] = $user['user_id'];
 
+                            $user_data = [
+                                'login_time' => date('Y-m-d H:i:s'),
+                                'user_email' => $user['user_email'],
+                                'user_name' => $user['user_name'],
+                                'user_id' => $user['user_id'],
+                                'logged_in' => true,
+                                'pic_generating_count' => $generating_count['count'],
+                                'last_load_time' => time()
+                            ];
 
-
-                            $user_data = array(
-                                'login_time'            => date('Y-m-d H:i:s'),
-                                'user_email'            => $user['user_email'],
-                                'user_name'             => $user['user_name'],
-                                'user_id'               => $user['user_id'],
-                                'logged_in'             => true,
-                                'pic_generating_count'  => $generating_count['count'],
-                                'last_load_time'        => time()
-                            );
-
-                            $_SESSION['login_data'] = $user_data;
+                            session()->set('login_data', $user_data);
+                            $this->LogModel->info('login', $this->userInfo, "Successful login for user: '{$values['login-mail']}', user_id: '{$user['user_id']}'");
                         }
                     }
                 }
+
+                return $this->response->setJSON($response);
+            } catch (\Exception $e) {
+                $this->LogModel->error('login', $this->userInfo, "AJAX error during login: " . $e->getMessage());
+                return $this->response->setJSON([
+                    'error' => 1,
+                    'info' => [['fieldId' => 'submit', 'message' => 'An error occurred during login. Please try again.']]
+                ])->setStatusCode(500);
             }
-
-            print json_encode($response);
-
-        }else{
+        } else {
             return view('frontend/header')
-                .view('frontend/layouts/login')
-                .view('frontend/footer');
+                . view('frontend/layouts/login')
+                . view('frontend/footer');
         }
     }
+
+
 
     /**
      * @return \CodeIgniter\HTTP\RedirectResponse
      */
     public function logout(){
-        $this->session->destroy();
+        try {
+            $user_id =
+            $this->session->destroy();
+            $this->LogModel->info('logout', $this->userInfo, "Logout successfully: " . $e->getMessage());
+
+        }
+        catch (\Exception $e){
+            $this->LogModel->error('logout', $this->userInfo, "Error during logout: " . $e->getMessage());
+        }
 
         return redirect()->route('/');
     }
 
 
+    public function generate(){
+
+        $response = array('error'=>0,'info'=>null);
+
+        $values = array(
+            'generation_text' => $_POST['generation_text']
+        );
+
+        if($values['generation_text'] == ''){
+            $response['error']=1;
+            $response['info'][]=array('fieldId'=>'generation_text','message'=>'Field required!');
+        }else{
+
+            if($this->ImageModel->validateText($values['generation_text'])){
+
+                $image = $this->ImageModel->generateImage($values['generation_text'],$this->user_id);
+
+                if(!isset($image['error'])){
+
+                    $response['error'] = 0;
+                    $response['info'][]=array('fieldId'=>'submit','message'=>'Generate successfull!');
+                    $response['id'] = $this->ImageModel->getImage($this->user_id,$image)[0]['image'];//exit;//$image;
+                    $response['url'] = base_url().'downloadImage/'.$image;
+                }else{
+                    $response['error'] = 1;
+                    $response['info'][] = array('fieldId'=>'generation-text','message'=>$image['error']['message']);
+                }
+            }else{
+
+                $response['error']=1;
+                $response['info'][]=array('fieldId'=>'generation-text','message'=>'This text contains forbidden parts!');
+            }
+        }
+
+        print json_encode($response);
+
+    }
+
+    public function test(){
+        $text = "a boy is killing a girl in street";
+
+        $ImageModel = new \App\Models\ImageModel();
+
+        echo'<pre>';
+        var_dump($text,$ImageModel->validateText($text));
+        echo'</pre>';
+    }
 
 }

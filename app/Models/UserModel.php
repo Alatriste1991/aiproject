@@ -128,7 +128,7 @@ class UserModel extends Model
             $builder->update();
         }
 
-        $builder->update($data, 'billing_data_id = '.$id);
+        return $builder->update($data, 'billing_data_id = '.$id);
     }
 
     /**
@@ -140,7 +140,7 @@ class UserModel extends Model
         $builder = $db->table('user_billing_data');
 
         $builder->where('billing_data_id', $id);
-        $builder->delete();
+        return $builder->delete();
     }
 
     function checkVerificationId($params){
