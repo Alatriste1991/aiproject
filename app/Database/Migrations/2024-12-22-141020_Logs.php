@@ -44,6 +44,10 @@ class Logs extends Migration
             'info' => [
                 'type' => 'TEXT',
             ],
+            'admin' =>[
+                'type' => 'INT',
+                'constraint' => 1,
+            ],
             'date' => [
                 'type' => 'TIMESTAMP',
                 'default' => new RawSql('CURRENT_TIMESTAMP'),

@@ -17,7 +17,7 @@ class LoginModel extends Model {
         $this->db   = \Config\Database::connect();
     }
 
-    function info($where,$userinfo,$info,$user = ''){
+    function info($where,$userinfo,$info,$user = '',$admin = 0){
 
         $builder = $this->db->table('logs');
 
@@ -29,13 +29,14 @@ class LoginModel extends Model {
             'browser'   => $userinfo['browser'],
             'platform'  => $userinfo['platform'],
             'info'      => $info,
-            'date'      => date('Y-m-d H:i:s')
+            'date'      => date('Y-m-d H:i:s'),
+            'admin'     => $admin
         );
 
         $builder->insert($data,true);
     }
 
-    function warning($where,$userinfo,$info,$user = ''){
+    function warning($where,$userinfo,$info,$user = '',$admin = 0){
 
         $builder = $this->db->table('logs');
 
@@ -47,13 +48,14 @@ class LoginModel extends Model {
             'browser'   => $userinfo['browser'],
             'platform'  => $userinfo['platform'],
             'info'      => $info,
-            'date'      => date('Y-m-d H:i:s')
+            'date'      => date('Y-m-d H:i:s'),
+            'admin'     => $admin
         );
 
         $builder->insert($data,true);
     }
 
-    function error($where,$userinfo,$info,$user = ''){
+    function error($where,$userinfo,$info,$user = '',$admin = 0){
 
         $builder = $this->db->table('logs');
 
@@ -65,7 +67,8 @@ class LoginModel extends Model {
             'browser'   => $userinfo['browser'],
             'platform'  => $userinfo['platform'],
             'info'      => $info,
-            'date'      => date('Y-m-d H:i:s')
+            'date'      => date('Y-m-d H:i:s'),
+            'admin'     => $admin
         );
 
         $builder->insert($data,true);
