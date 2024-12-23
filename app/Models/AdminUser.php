@@ -83,4 +83,10 @@ class AdminUser extends Model
 
         return $data;
     }
+
+    function generateCount(){
+        $builder = $this->db->table('images');
+
+        return $builder->countAllResults();
+    }
 }

@@ -27,11 +27,15 @@ class AdminHome extends AdminBaseController
     public function dashboard()
     {
 
-        $data = array(
-            'user_name'     => $_SESSION['admin_data']['admin_name'],
-            'breadcrumbs'   => array(0 => 'Műszerfal'),
-            'page_name'     => 'Műszerfal',
+        $users = $this->adminUser->getAllFrontUser();
+        $generate_count = $this->adminUser->generateCount();
 
+        $data = array(
+            'user_name'         => $_SESSION['admin_data']['admin_name'],
+            'breadcrumbs'       => array(0 => 'Műszerfal'),
+            'page_name'         => 'Műszerfal',
+            'user_counts'       => count($users),
+            'generate_count'    => $generate_count,
         );
         return view('admin/header', $this->header_data())
             .view('admin/sidebar',$data)
