@@ -23,7 +23,8 @@ class Home extends BaseController
      */
     function __construct()
     {
-
+        $this->session = session();
+        $this->is_logged_in();
         $this->ImageModel = new \App\Models\ImageModel();
 
         $this->LogModel = new \App\Models\LoginModel();
@@ -36,17 +37,21 @@ class Home extends BaseController
      */
     public function index(): string
     {
-
         if(isset($_SESSION['login_data'])){
 
             $data = array(
                 'user_name' => $_SESSION['login_data']['user_name'],
-                'user_id' => $_SESSION['login_data']['user_id']
+                'user_id' => $_SESSION['login_data']['user_id'],
+                'accept' => false,
             );
             return view('frontend/header')
                 .view('frontend/layouts/main', $data)
                 .view('frontend/footer');
         }else{
+
+            $data = array(
+              'accept' => true,
+            );
             return view('frontend/header')
                 .view('frontend/layouts/main',$data)
                 .view('frontend/footer');
@@ -158,13 +163,14 @@ class Home extends BaseController
      */
     public function logout(){
         try {
-            $user_id =
+            $user_id = $this->session->get('login_data')['user_id'];
+
             $this->session->destroy();
-            $this->LogModel->info('logout', $this->userInfo, "Logout successfully: " . $e->getMessage());
+            $this->LogModel->info('logout', $this->userInfo, "Logout successfully: ",$user_id);
 
         }
         catch (\Exception $e){
-            $this->LogModel->error('logout', $this->userInfo, "Error during logout: " . $e->getMessage());
+            $this->LogModel->error('logout', $this->userInfo, "Error during logout: " . $e->getMessage(),$user_id);
         }
 
         return redirect()->route('/');
