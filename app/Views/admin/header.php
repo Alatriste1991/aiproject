@@ -11,10 +11,12 @@
     <link rel="stylesheet" href="/admin_source/plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="/admin_source/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="/admin_source/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <link rel="stylesheet" href="/admin_source/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
-
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
     <!-- jQuery -->
     <script src="/admin_source/plugins/jquery/jquery.min.js"></script>
+    <script src="/admin_source/plugins/moment/moment.min.js"></script>
 </head>
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->

@@ -44,7 +44,15 @@
                     <a href="/admin/admins" class="nav-link">
                         <i class="nav-icon fa fa-user"></i>
                         <p>
-                            Adminok
+                            Felhasználók
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/log" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Log
                         </p>
                     </a>
                 </li>
