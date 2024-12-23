@@ -37,6 +37,8 @@ abstract class AdminBaseController extends Controller
      */
     protected $request;
 
+    protected $userInfo;
+
     /**
      * An array of helpers to be loaded automatically upon
      * class instantiation. These helpers will be available
@@ -61,6 +63,15 @@ abstract class AdminBaseController extends Controller
         parent::initController($request, $response, $logger);
         $this->session = session();
         $this->is_admin_logged_in();
+
+        $this->userInfo = [
+            'ip_address' => $this->request->getIPAddress(),
+            'user_agent' => $this->request->getUserAgent()
+        ];
+
+        $this->userInfo['browser'] = $this->userInfo['user_agent']->getBrowser();
+        $this->userInfo['browser_version'] = $this->userInfo['user_agent']->getVersion();
+        $this->userInfo['platform'] = $this->userInfo['user_agent']->getPlatform();
     }
 
     public function header_data(){
