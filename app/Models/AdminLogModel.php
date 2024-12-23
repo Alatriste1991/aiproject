@@ -82,7 +82,6 @@ class AdminLogModel extends Model
         if (!empty($type)) {
             $baseQuery->whereIn('type', $type);
         }
-        echo $baseQuery->getCompiledSelect(false);
         // Számolás végrehajtása
         $data['total'] = $baseQuery->countAllResults(false);
 
