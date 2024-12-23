@@ -29,11 +29,11 @@
                     <div class="card-body">
                         <form id="filter" method="GET" action="/admin/log">
                             <div class="form-check">
-                                <input type="checkbox" name="info" class="form-check-input" id="info" value="<?php if(isset($info)){echo 'checked'; } ?>">
+                                <input type="checkbox" name="info" class="form-check-input" id="info" <?php if(isset($info)){echo 'checked'; } ?>>
                                 <label class="form-check-label" for="info"><small class="badge badge-primary">Info</small></label>
                             </div>
                             <div class="form-check">
-                                <input type="checkbox" name="warning" class="form-check-input" id="warning" value="<?php if(isset($warning)){echo 'checked'; }?>">
+                                <input type="checkbox" name="warning" class="form-check-input" id="warning" <?php if(isset($warning)){echo 'checked'; }?>>
                                 <label class="form-check-label"  for="warning"><small class="badge badge-warning">Warning</small></label>
                             </div>
                             <div class="form-check">
@@ -63,6 +63,7 @@
                             <div class="form-group">
                                 <label for="admin">Admin</label>
                                 <select name="admin" id="admin" class="form-control">
+                                    <option value="2" <?php if(isset($admin) && $admin == 2){echo 'selected="selected"'; }?>>Mindegyik</option>
                                     <option value="0" <?php if(isset($admin) && $admin == 0){echo 'selected="selected"'; }?>>Nem</option>
                                     <option value="1" <?php if(isset($admin) && $admin == 1){echo 'selected="selected"'; }?>">Igen</option>
                                 </select>
