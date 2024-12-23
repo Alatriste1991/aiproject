@@ -21,6 +21,6 @@ class FeedbackModel extends Model
 
         $builder = $this->db->table('feedback');
 
-        $builder->insert($data,true);
+        return $builder->insert($data,true);
     }
 }
