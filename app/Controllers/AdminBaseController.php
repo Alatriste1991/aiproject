@@ -48,6 +48,8 @@ abstract class AdminBaseController extends Controller
      */
     protected $helpers = [];
 
+    private $FeedbackModel = '';
+
     /**
      * Be sure to declare properties for any property fetch you initialized.
      * The creation of dynamic property is deprecated in PHP 8.2.
@@ -64,6 +66,8 @@ abstract class AdminBaseController extends Controller
         $this->session = session();
         $this->is_admin_logged_in();
 
+
+
         $this->userInfo = [
             'ip_address' => $this->request->getIPAddress(),
             'user_agent' => $this->request->getUserAgent()
@@ -75,8 +79,22 @@ abstract class AdminBaseController extends Controller
     }
 
     public function header_data(){
-        return  array(
+        $this->FeedbackModel = new \App\Models\AdminFeedbackModel();
+        $where = array(
+            'bug'               => 1,
+        );
+        $feedback_data = $this->FeedbackModel->FeedbackPagination(10,0,$where);
 
+        for($i=0;$i<count($feedback_data['feedbacks']);$i++){
+
+            $currentTime = time();
+            $elapsedSeconds = $currentTime - strtotime($feedback_data['feedbacks'][$i]['created_time']);
+            $elapsedHours = round($elapsedSeconds / 3600);
+            $feedback_data['feedbacks'][$i]['elapsed_time'] = $elapsedHours;
+        }
+
+        return  array(
+            'bug_reports' => $feedback_data
         );
     }
 
