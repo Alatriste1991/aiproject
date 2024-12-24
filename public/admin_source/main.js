@@ -8,9 +8,9 @@ function resetError(field){
     $(field).removeClass('is-invalid');
 }
 
-function btnLoading(btn,LoadorReset,text){
+function btnLoading(btn,LoaderReset,text){
 
-    if(LoadorReset == 1){
+    if(LoaderReset == 1){
         $(btn).prop("disabled", true);
         // add spinner to button
         $(btn).html(
