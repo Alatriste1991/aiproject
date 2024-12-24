@@ -28,6 +28,9 @@ class Feedback extends Migration
             'feedback_text' => [
                 'type' => 'TEXT',
             ],
+            'bug_report_seen' => [
+                'type' => 'boolean',
+            ],
             'created_time' => [
                 'type' => 'TIMESTAMP',
                 'default' => new RawSql('CURRENT_TIMESTAMP'),

@@ -97,7 +97,7 @@ class AdminFeedbackModel extends Model
     function getFeedback($id){
 
         return $builder = $this->db->table('feedback')
-            ->select('feedback_id,feedback_type,feedback_text,feedback.created_time,feedback.user_id,
+            ->select('feedback_id,feedback_type,feedback_text,bug_report_seen,feedback.created_time,feedback.user_id,
                     user_name,user_email')
             ->join('users','users.user_id = feedback.user_id','inner')
             ->where('feedback_id',$id)

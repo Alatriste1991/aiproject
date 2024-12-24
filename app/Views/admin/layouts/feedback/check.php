@@ -189,7 +189,7 @@
                    return false;
                }
 
-               window.location.href = '/admin/bug/create?feedback_id=' + $('#feedback_id').val() + '&?priority=' + priority
+               window.location.href = '/admin/bug/create?feedback_id=' + $('#feedback_id').val() + '&priority=' + priority
 
             }
             $('.check').on('click',function () {
