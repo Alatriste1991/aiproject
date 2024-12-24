@@ -52,7 +52,7 @@ class AdminLog extends AdminBaseController
 
         return view('admin/header', $this->header_data())
             .view('admin/sidebar',$data)
-            .view('admin/layouts/admins/log/index',$data_index)
+            .view('admin/layouts/log/index',$data_index)
             .view('admin/footer',$this->footer_data());
     }
 }
