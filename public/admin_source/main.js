@@ -39,6 +39,33 @@ function showPopup(type,text) {
     
 }
 
+function answerPopUp(text,confirmButtonText,cancelButtonText,yesCallback,noCallback) {
+    let Toast = Swal.mixin({
+        toast: true,
+        position: 'center',
+        showConfirmButton: true,
+        confirmButtonText: confirmButtonText,
+        cancelButtonText: cancelButtonText,
+        reverseButtons: true,
+        showCancelButton: true,
+        showCloseButton: true,
+        timer: 5000
+    });
+
+    Toast.fire({
+        icon: 'question',
+        title: text
+    }).then((result) => {
+        if (result.isConfirmed && typeof yesCallback === 'function') {
+            // Igen gombra kattintás esetén
+            yesCallback();
+        } else if (result.dismiss === Swal.DismissReason.cancel && typeof noCallback === 'function') {
+            // Nem gombra kattintás esetén
+            noCallback();
+        }
+    })
+}
+
 function generatePassword() {
 
     let charset = "!@#$%^&*()0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
