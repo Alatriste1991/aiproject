@@ -110,17 +110,27 @@
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
                 </div>
-            </li>
+            </li> -->
 
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
-                    <span class="badge badge-warning navbar-badge">15</span>
+                    <span class="badge badge-danger navbar-badge"><?= $bug_reports['total'] ?></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header">15 Notifications</span>
+                    <span class="dropdown-item dropdown-header"><?= $bug_reports['total'] ?> kezeletlen bug jelentés</span>
                     <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
+                    <?php
+
+                        foreach ($bug_reports['feedbacks'] as $feedback){
+                            echo '<a href="/admin/feedback/'.$feedback['feedback_id'].'" class="dropdown-item">
+                                    <i class="fas fa-exclamation-circle mr-2"></i>'.substr($feedback['feedback_text'], 0, 15).' ...
+                                <span class="float-right text-muted text-sm">'.$feedback['elapsed_time'].' órája</span>
+                                </a>';
+                        }
+
+                    ?>
+                    <!--<a href="#" class="dropdown-item">
                         <i class="fas fa-envelope mr-2"></i> 4 new messages
                         <span class="float-right text-muted text-sm">3 mins</span>
                     </a>
@@ -133,11 +143,11 @@
                     <a href="#" class="dropdown-item">
                         <i class="fas fa-file mr-2"></i> 3 new reports
                         <span class="float-right text-muted text-sm">2 days</span>
-                    </a>
+                    </a>-->
                     <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                    <a href="/admin/feedback?bug=on&user_id=&start_date=&due_date=" class="dropdown-item dropdown-footer">Összes megtekintése</a>
                 </div>
-            </li>-->
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link" href="/admin/login"><i class="fas fa-sign-out-alt"></i></a>
             </li>
