@@ -126,9 +126,9 @@
                                                 }
 
 
-                                                echo '<td>'.$feedback['feedback_text'].'</td>
+                                                echo '<td>'.substr($feedback['feedback_text'], 0,30).' ...</td>
                                                     <td>'.$feedback['created_time'].'</td>
-                                                    <td><a href="#" class="btn btn-primary"><i class="fas fa-eye"></i></a></td>
+                                                    <td><a href="/admin/feedback/'.$feedback['feedback_id'].'" class="btn btn-primary"><i class="fas fa-eye"></i></a></td>
                                             </tr>';
                                             }
                                         }else{

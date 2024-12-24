@@ -20,7 +20,7 @@ class AdminFeedback extends AdminBaseController
         $data = array(
             'user_name'     => $_SESSION['admin_data']['admin_name'],
             'breadcrumbs'   => array(0 => 'Műszerfal',1 => 'Feedback'),
-            'page_name'     => 'Adminok listája',
+            'page_name'     => 'Feedback lista',
         );
 
         $request = service('request');
@@ -51,6 +51,22 @@ class AdminFeedback extends AdminBaseController
         return view('admin/header', $this->header_data())
             .view('admin/sidebar',$data)
             .view('admin/layouts/feedback/index',$data_index)
+            .view('admin/footer',$this->footer_data());
+    }
+
+    public function feedback($id){
+
+        $data = array(
+            'user_name'     => $_SESSION['admin_data']['admin_name'],
+            'breadcrumbs'   => array(0 => 'Műszerfal',1 => 'Feedback'),
+            'page_name'     => 'Feedback',
+        );
+
+        $feedback_data = $this->FeedbackModel->getFeedback($id);
+
+        return view('admin/header', $this->header_data())
+            .view('admin/sidebar',$data)
+            .view('admin/layouts/feedback/check',$feedback_data[0])
             .view('admin/footer',$this->footer_data());
     }
 }

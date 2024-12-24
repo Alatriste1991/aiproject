@@ -71,6 +71,11 @@ class AdminFeedbackModel extends Model
         // Alapvető lekérdezés összeállítása
         $baseQuery = $builder->select('*');
 
+        if(!isset($where['bug_report_seen'])){
+            $where['bug_report_seen'] = 0;
+        }
+
+
         if (!empty($where)) {
             $baseQuery->where($where);
         }
@@ -87,5 +92,17 @@ class AdminFeedbackModel extends Model
             ->getResultArray();
 
         return $data;
+    }
+
+    function getFeedback($id){
+
+        return $builder = $this->db->table('feedback')
+            ->select('feedback_id,feedback_type,feedback_text,feedback.created_time,feedback.user_id,
+                    user_name,user_email')
+            ->join('users','users.user_id = feedback.user_id','inner')
+            ->where('feedback_id',$id)
+            ->get()
+            ->getResultArray();
+
     }
 }
