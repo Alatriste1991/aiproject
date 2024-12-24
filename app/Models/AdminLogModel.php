@@ -12,6 +12,9 @@ use CodeIgniter\Validation\ValidationInterface;
  */
 class AdminLogModel extends Model
 {
+
+    protected $db = '';
+
     public function __construct(ConnectionInterface $db = null, ValidationInterface $validation = null)
     {
         parent::__construct($db, $validation);
@@ -67,10 +70,6 @@ class AdminLogModel extends Model
             $builder->where('date <=', $where['due_date'].' 23:59:59' ?? '9999-12-31');
             // Töröljük a start_date és due_date kulcsokat a $where tömbből
             unset($where['start_date'], $where['due_date']);
-        }
-
-        if(!empty($type)){
-            $builder->whereIn('type',$type);
         }
 
         // Alapvető lekérdezés összeállítása
